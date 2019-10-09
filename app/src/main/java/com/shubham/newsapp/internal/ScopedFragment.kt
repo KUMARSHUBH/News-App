@@ -1,4 +1,4 @@
-package com.shubham.newsapp.ui
+package com.shubham.newsapp.internal
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

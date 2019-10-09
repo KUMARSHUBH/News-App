@@ -4,7 +4,8 @@
     package="com.shubham.newsapp">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".NewsApplication"
         android:allowBackup="true"
@@ -14,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.SettingsActivity"></activity>
+        <activity
+            android:name=".ui.WebViewActivity" />
+        <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

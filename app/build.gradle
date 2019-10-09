@@ -32,7 +32,7 @@ android {
     }
 }
 
-androidExtensions{
+androidExtensions {
 
     experimental = true
 }
@@ -56,9 +56,6 @@ dependencies {
 
     //New Material Design
     implementation 'com.google.android.material:material:1.0.0'
-
-    //Card Stack View
-    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 
     //Groupie
     implementation "com.xwray:groupie:2.6.0"
@@ -92,5 +89,8 @@ dependencies {
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.oguzbabaoglu:cardpager:0.1'
+
 
 }
