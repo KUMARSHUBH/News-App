@@ -1,12 +1,14 @@
-package com.shubham.newsapp
+package com.shubham.newsapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentStatePagerItemAdapter
-import com.shubham.newsapp.fragments.Discover
-import com.shubham.newsapp.fragments.MyFeed
+import com.shubham.newsapp.R
+import com.shubham.newsapp.ui.discover.Discover
+import com.shubham.newsapp.ui.myFeed.MyFeed
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -16,17 +18,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
-
         val fragPagerItems = FragmentPagerItems.with(this)
-            .add(R.string.discover,Discover::class.java)
-            .add(R.string.myFeed,MyFeed::class.java)
+            .add(R.string.discover, Discover::class.java)
+            .add(R.string.myFeed, MyFeed::class.java)
             .create()
-        
+
         val adapter = FragmentStatePagerItemAdapter(supportFragmentManager,
             fragPagerItems)
-        
+
+        settings_image_view.setOnClickListener {
+            Intent(this, SettingsActivity::class.java).also {
+                startActivity(it)
+            }
+        }
         viewPager.adapter = adapter
         viewpagertab.setViewPager(viewPager)
+
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {

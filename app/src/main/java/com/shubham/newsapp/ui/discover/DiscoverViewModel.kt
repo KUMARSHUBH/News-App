@@ -1,4 +1,4 @@
-package com.shubham.newsapp.fragments
+package com.shubham.newsapp.ui.discover
 
 import androidx.lifecycle.ViewModel
 
