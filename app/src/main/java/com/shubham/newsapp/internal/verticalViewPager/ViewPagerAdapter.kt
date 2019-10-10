@@ -2,19 +2,25 @@ package com.shubham.newsapp.internal.verticalViewPager
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.palette.graphics.Palette
 import androidx.viewpager.widget.PagerAdapter
-import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
+import com.shubham.newsapp.internal.setUpInfoBackgroundColor
 import com.shubham.newsapp.ui.WebViewActivity
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.news_item_layout.view.*
 
+
 class ViewPagerAdapter(private val context: Context?, private var news: List<Article>): PagerAdapter() {
+
+
+    private lateinit var posterPalette: Palette
 
     private var mLayoutInflater: LayoutInflater = context?.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     override fun isViewFromObject(view: View, objeect: Any): Boolean {
@@ -28,7 +34,7 @@ class ViewPagerAdapter(private val context: Context?, private var news: List<Art
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
-        val itemView = mLayoutInflater.inflate(R.layout.news_item_layout,container,false)
+        val itemView = mLayoutInflater.inflate(com.shubham.newsapp.R.layout.news_item_layout,container,false)
 
         itemView.heading_textView.text = news[position].title
         itemView.description_text_view.text = news[position].description
@@ -38,9 +44,29 @@ class ViewPagerAdapter(private val context: Context?, private var news: List<Art
 
         else
             itemView.author.text = "Source : Unknown"
-//        itemView.author.text = news[position].author
 
-        Picasso.get().load(news[position].urlToImage).into(itemView.news_image_view)
+
+
+        Picasso.get().load(news[position].urlToImage).into(itemView.news_image_view, object : Callback{
+
+            override fun onSuccess() {
+
+                    val bitmap = (itemView.news_image_view.drawable as BitmapDrawable).bitmap
+
+                    Palette.from(bitmap).generate { palette ->
+                        setPosterPalette(palette!!)
+
+                        setUpInfoBackgroundColor(itemView.author, palette,context!!.applicationContext)
+
+
+                }
+            }
+
+            override fun onError(e: Exception?) {
+
+            }
+
+        })
 
         itemView.setOnClickListener {
             val intent = Intent(context,WebViewActivity::class.java)
@@ -48,10 +74,10 @@ class ViewPagerAdapter(private val context: Context?, private var news: List<Art
             context?.startActivity(intent)
         }
 
-        val animationDrawable = itemView.author.background as AnimationDrawable
-        animationDrawable.setEnterFadeDuration(2000)
-        animationDrawable.setExitFadeDuration(4000)
-        animationDrawable.start()
+//        val animationDrawable = itemView.author.background as AnimationDrawable
+//        animationDrawable.setEnterFadeDuration(2000)
+//        animationDrawable.setExitFadeDuration(4000)
+//        animationDrawable.start()
 
         container.addView(itemView)
         return itemView
@@ -59,5 +85,13 @@ class ViewPagerAdapter(private val context: Context?, private var news: List<Art
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as LinearLayout)
+    }
+
+    fun getPosterPalette(): Palette {
+        return posterPalette
+    }
+
+    fun setPosterPalette(posterPalette: Palette) {
+        this.posterPalette = posterPalette
     }
 }

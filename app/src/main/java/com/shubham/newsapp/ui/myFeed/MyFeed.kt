@@ -39,9 +39,14 @@ class MyFeed : ScopedFragment(), KodeinAware {
         val context =activity?.applicationContext
             super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(MyFeedViewModel::class.java)
+        shimmer_layout.apply {
+            startShimmerAnimation()
+        }
+
         bindUI()
 
     }
+
 
 
     private fun bindUI()  = launch(Dispatchers.Main) {
@@ -56,10 +61,19 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
     private fun initViewPager(it: List<Article>) {
 
+        shimmer_layout.stopShimmerAnimation()
+        shimmer_layout.visibility = View.GONE
         view_pager.adapter = ViewPagerAdapter(this@MyFeed.context,it)
         view_pager.setPageTransformer(true, ViewPageTransformer())
 
         }
+
+
+    override fun onStop() {
+
+        shimmer_layout.stopShimmerAnimation()
+        super.onStop()
+    }
     }
 
 
@@ -87,5 +101,6 @@ class ViewPageTransformer : ViewPager.PageTransformer {
         }
 
     }
+
 }
 

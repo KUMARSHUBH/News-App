@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
         viewPager.adapter = adapter
         viewpagertab.setViewPager(viewPager)
+        viewPager.currentItem = 1
 
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
