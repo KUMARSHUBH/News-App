@@ -2,6 +2,7 @@ package com.shubham.newsapp.internal.verticalViewPager
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,7 @@ import android.widget.LinearLayout
 import androidx.palette.graphics.Palette
 import androidx.viewpager.widget.PagerAdapter
 import com.shubham.newsapp.data.db.entity.Article
-import com.shubham.newsapp.internal.setUpInfoBackgroundColor
+import com.shubham.newsapp.internal.BlurBuilder
 import com.shubham.newsapp.ui.WebViewActivity
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -50,16 +51,13 @@ class ViewPagerAdapter(private val context: Context?, private var news: List<Art
         Picasso.get().load(news[position].urlToImage).into(itemView.news_image_view, object : Callback{
 
             override fun onSuccess() {
+                val bitmap = (itemView.news_image_view.drawable as BitmapDrawable).bitmap
 
-                    val bitmap = (itemView.news_image_view.drawable as BitmapDrawable).bitmap
+                var bm = BlurBuilder().blur(context!!,bitmap)
 
-                    Palette.from(bitmap).generate { palette ->
-                        setPosterPalette(palette!!)
-
-                        setUpInfoBackgroundColor(itemView.author, palette,context!!.applicationContext)
-
-
-                }
+                bm = Bitmap.createBitmap(bm, 0, 0, 100, 50)
+                val drawable = BitmapDrawable(context.resources,bm)
+                itemView.author.background = drawable
             }
 
             override fun onError(e: Exception?) {
@@ -74,10 +72,6 @@ class ViewPagerAdapter(private val context: Context?, private var news: List<Art
             context?.startActivity(intent)
         }
 
-//        val animationDrawable = itemView.author.background as AnimationDrawable
-//        animationDrawable.setEnterFadeDuration(2000)
-//        animationDrawable.setExitFadeDuration(4000)
-//        animationDrawable.start()
 
         container.addView(itemView)
         return itemView
@@ -87,11 +81,5 @@ class ViewPagerAdapter(private val context: Context?, private var news: List<Art
         container.removeView(`object` as LinearLayout)
     }
 
-    fun getPosterPalette(): Palette {
-        return posterPalette
-    }
 
-    fun setPosterPalette(posterPalette: Palette) {
-        this.posterPalette = posterPalette
-    }
 }
