@@ -2,6 +2,7 @@ package com.shubham.newsapp.internal.verticalViewPager
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,13 @@ class ViewPagerAdapter(private val context: Context?, private var news: List<Art
 
         itemView.heading_textView.text = news[position].title
         itemView.description_text_view.text = news[position].description
-        itemView.small_desc_text_view.text = news[position].author
+
+        if(news[position].author != null)
+            itemView.author.text = "Source : ${news[position].author}"
+
+        else
+            itemView.author.text = "Source : Unknown"
+//        itemView.author.text = news[position].author
 
         Picasso.get().load(news[position].urlToImage).into(itemView.news_image_view)
 
@@ -40,6 +47,11 @@ class ViewPagerAdapter(private val context: Context?, private var news: List<Art
             intent.putExtra("SOURCE_URL",news[position].url)
             context?.startActivity(intent)
         }
+
+        val animationDrawable = itemView.author.background as AnimationDrawable
+        animationDrawable.setEnterFadeDuration(2000)
+        animationDrawable.setExitFadeDuration(4000)
+        animationDrawable.start()
 
         container.addView(itemView)
         return itemView

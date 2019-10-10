@@ -1,5 +1,6 @@
 package com.shubham.newsapp.ui.myFeed
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -80,6 +81,7 @@ class ViewPageTransformer : ViewPager.PageTransformer {
 
             page.translationX = page.width * -position
             page.translationY = page.height * position * 0.5f
+            page.setBackgroundColor(Color.BLACK)
 
 
         }
