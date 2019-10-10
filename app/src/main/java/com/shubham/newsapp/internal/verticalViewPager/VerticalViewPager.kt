@@ -46,6 +46,9 @@ class VerticalViewPager @JvmOverloads constructor(context: Context, attrs: Attri
         val height = height.toFloat()
         val x = ev.y / height * width
         val y = ev.x / width * height
+
+//        val x = ev.x
+//        val y = ev.y
         ev.setLocation(x, y)
         return ev
     }

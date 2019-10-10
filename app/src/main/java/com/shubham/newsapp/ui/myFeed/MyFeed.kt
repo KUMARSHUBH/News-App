@@ -67,14 +67,25 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
 class ViewPageTransformer : ViewPager.PageTransformer {
     override fun transformPage(page: View, position: Float) {
-        if(position >=0){
+        if(position <=0){
 
-//            page.scaleX = 0.7f
-//            page.scaleY = 0.7f - 0.05f * position
+            page.translationX = page.width * -position
+            page.translationY = page.height * position
 
-            page.translationX = -30 * position
-            page.translationY = -page.height * position
+
+//            page.translationX = page.width * -position
+//            page.translationY = page.height * -position
+                //-30 * position
         }
+
+        else{
+
+            page.translationX = page.width * -position
+            page.translationY = page.height * position * 0.5f
+
+
+        }
+
     }
 }
 
