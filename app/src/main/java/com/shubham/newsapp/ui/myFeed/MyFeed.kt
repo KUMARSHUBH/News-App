@@ -57,12 +57,10 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         view_pager.adapter = ViewPagerAdapter(this@MyFeed.context,it)
         view_pager.setPageTransformer(true, ViewPageTransformer())
+
+        }
     }
 
-
-
-
-}
 
 
 class ViewPageTransformer : ViewPager.PageTransformer {

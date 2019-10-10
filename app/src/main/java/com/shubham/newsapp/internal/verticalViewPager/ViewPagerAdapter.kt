@@ -1,6 +1,7 @@
 package com.shubham.newsapp.internal.verticalViewPager
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,11 @@ import android.widget.LinearLayout
 import androidx.viewpager.widget.PagerAdapter
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
+import com.shubham.newsapp.ui.WebViewActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.news_item_layout.view.*
 
-class ViewPagerAdapter(context: Context?, private var news: List<Article>): PagerAdapter() {
+class ViewPagerAdapter(private val context: Context?, private var news: List<Article>): PagerAdapter() {
 
     private var mLayoutInflater: LayoutInflater = context?.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     override fun isViewFromObject(view: View, objeect: Any): Boolean {
@@ -32,6 +34,12 @@ class ViewPagerAdapter(context: Context?, private var news: List<Article>): Page
         itemView.small_desc_text_view.text = news[position].author
 
         Picasso.get().load(news[position].urlToImage).into(itemView.news_image_view)
+
+        itemView.setOnClickListener {
+            val intent = Intent(context,WebViewActivity::class.java)
+            intent.putExtra("SOURCE_URL",news[position].url)
+            context?.startActivity(intent)
+        }
 
         container.addView(itemView)
         return itemView
