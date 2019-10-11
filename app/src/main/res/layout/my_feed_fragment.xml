@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_layout"
@@ -17,7 +18,8 @@
     <com.shubham.newsapp.internal.verticalViewPager.VerticalViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"/>
 
 </RelativeLayout>
 

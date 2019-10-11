@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -12,6 +14,8 @@ import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
 import com.shubham.newsapp.internal.ScopedFragment
 import com.shubham.newsapp.internal.verticalViewPager.ViewPagerAdapter
+import com.shubham.newsapp.ui.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.my_feed_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,11 +47,19 @@ class MyFeed : ScopedFragment(), KodeinAware {
             startShimmerAnimation()
         }
 
+        val img = (activity as? MainActivity)?.refresh_image_view
+        img?.setOnClickListener {
+
+            val anim = AnimationUtils.loadAnimation(this.context, R.anim.rotate)
+            it.startAnimation(anim)
+            shimmer_layout.visibility = View.VISIBLE
+            shimmer_layout.startShimmerAnimation()
+
+            bindUI()
+        }
+
         bindUI()
-
     }
-
-
 
     private fun bindUI()  = launch(Dispatchers.Main) {
 
@@ -63,8 +75,10 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         shimmer_layout.stopShimmerAnimation()
         shimmer_layout.visibility = View.GONE
-        view_pager.adapter = ViewPagerAdapter(this@MyFeed.context,it)
+        view_pager.adapter = ViewPagerAdapter(this@MyFeed.context,it, this)
         view_pager.setPageTransformer(true, ViewPageTransformer())
+        Toast.makeText(this.context,"Feed updated",Toast.LENGTH_SHORT).show()
+
 
         }
 
@@ -75,7 +89,6 @@ class MyFeed : ScopedFragment(), KodeinAware {
         super.onStop()
     }
     }
-
 
 
 class ViewPageTransformer : ViewPager.PageTransformer {

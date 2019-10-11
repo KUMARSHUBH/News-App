@@ -26,13 +26,13 @@ class NewsRepositoryImpl(
 
     private fun persistFetchedCurrentWeather(fetchedNews: NewsResponse) {
 
-//        fun deleteOldFetchedNews(){
-//            newsDao.deleteOldNews()
-//        }
+        fun deleteOldFetchedNews(){
+            newsDao.deleteOldNews()
+        }
 
         GlobalScope.launch(Dispatchers.IO) {
 
-//            deleteOldFetchedNews()
+            deleteOldFetchedNews()
             val newsList = fetchedNews.articles
             newsDao.upsert(newsList)
         }

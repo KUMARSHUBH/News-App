@@ -73,6 +73,7 @@
                     android:padding="10dp"
                     android:textStyle="bold|italic"
                     android:textSize="16sp"
+                    android:paddingStart="200dp"
                     android:textColor="@android:color/white"
                     android:text="Kumar Shubham"
                     app:layout_constraintBottom_toBottomOf="parent"
