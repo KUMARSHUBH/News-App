@@ -1,4 +1,4 @@
-package com.shubham.newsapp.data.network
+package com.shubham.newsapp.data.network.dataSource
 
 import androidx.lifecycle.LiveData
 import com.shubham.newsapp.data.network.response.NewsResponse

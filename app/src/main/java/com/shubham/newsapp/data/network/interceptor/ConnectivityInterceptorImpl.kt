@@ -1,4 +1,4 @@
-package com.shubham.newsapp.data.network
+package com.shubham.newsapp.data.network.interceptor
 
 import android.content.Context
 import android.net.ConnectivityManager

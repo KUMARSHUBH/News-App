@@ -1,14 +1,15 @@
 package com.shubham.newsapp.ui.discover
 
 import androidx.lifecycle.ViewModel
-import com.shubham.newsapp.data.repository.NewsRepository
+import com.shubham.newsapp.data.repository.NewsSourceRepository
 import com.shubham.newsapp.internal.lazyDeferred
 
 class DiscoverViewModel(
-    private val newsRepository: NewsRepository
+    private val newsSourceRepository: NewsSourceRepository
 ) : ViewModel() {
 
-    val news by lazyDeferred {
-        newsRepository.getNews()
+    val newsSources by lazyDeferred {
+        newsSourceRepository.getNewsSources()
     }
+
 }

@@ -4,15 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.shubham.newsapp.data.db.dao.NewsDao
+import com.shubham.newsapp.data.db.dao.NewsSourcesDao
 import com.shubham.newsapp.data.db.entity.Article
+import com.shubham.newsapp.data.db.entity.SourceX
 
 @Database(
-    entities = [Article::class],
+    entities = [Article::class, SourceX::class],
     version = 1
 )
 abstract class NewsDatabase : RoomDatabase() {
 
     abstract fun newsDao() : NewsDao
+    abstract fun newsSourcesDao() : NewsSourcesDao
 
     companion object{
         @Volatile private var instance: NewsDatabase? = null

@@ -1,7 +1,9 @@
 package com.shubham.newsapp.data.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.shubham.newsapp.data.network.interceptor.ConnectivityInterceptor
 import com.shubham.newsapp.data.network.response.NewsResponse
+import com.shubham.newsapp.data.network.response.NewsSourcesResponse
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,6 +24,12 @@ interface NewsApiservice {
     fun getAllNews(
         @Query("q") query:String
     ): Deferred<NewsResponse>
+
+
+    @GET("sources")
+    fun getSources(
+        @Query("language") language : String = "en"
+    ) : Deferred<NewsSourcesResponse>
 
     companion object{
         operator fun invoke(

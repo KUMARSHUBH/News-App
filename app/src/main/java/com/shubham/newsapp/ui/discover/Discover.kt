@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.shubham.newsapp.R
+import com.shubham.newsapp.data.db.entity.SourceX
 import com.shubham.newsapp.internal.ScopedFragment
-import com.shubham.newsapp.ui.myFeed.MyFeedViewModel
-import com.shubham.newsapp.ui.myFeed.MyFeedViewModelFactory
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.discover_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
@@ -16,9 +22,10 @@ import org.kodein.di.generic.instance
 class Discover : ScopedFragment(), KodeinAware {
 
     override val kodein by closestKodein()
-    private val viewModelFactory: MyFeedViewModelFactory by instance()
+    private val viewModelFactory: DicoverViewModelFactory by instance()
 
-    private lateinit var viewModel: MyFeedViewModel
+    private lateinit var viewModel: DiscoverViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,10 +39,42 @@ class Discover : ScopedFragment(), KodeinAware {
 
         val context =activity?.applicationContext
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this,viewModelFactory).get(MyFeedViewModel::class.java)
+        viewModel = ViewModelProviders.of(this,viewModelFactory).get(DiscoverViewModel::class.java)
+
+
+        bindUI()
+
+    }
+
+    private fun bindUI() = launch(Dispatchers.Main) {
+
+        val sources = viewModel.newsSources.await()
+
+        sources.observe(this@Discover, Observer {entries ->
+            if(entries == null) return@Observer
+
+            initSourcesRecyclerView(entries.toNewsSourcesItem())
+
+        })
+    }
+
+    private fun initSourcesRecyclerView(items: List<NewsSourcesItem>) {
+
+        val groupAdapter = GroupAdapter<GroupieViewHolder>().apply {
+            addAll(items)
+        }
+        sources_recycler_view.apply {
+            layoutManager = LinearLayoutManager(this@Discover.context,LinearLayoutManager.HORIZONTAL,false)
+            adapter = groupAdapter
+        }
 
     }
 
 
+    private fun List<SourceX>.toNewsSourcesItem() : List<NewsSourcesItem>{
+        return this.map {
+            NewsSourcesItem(it)
+        }
+    }
 
 }

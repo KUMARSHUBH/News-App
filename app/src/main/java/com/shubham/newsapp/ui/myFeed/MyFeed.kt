@@ -29,7 +29,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
     private val viewModelFactory: MyFeedViewModelFactory by instance()
 
     private lateinit var viewModel: MyFeedViewModel
-
+    val constraint_layout = (activity as? MainActivity)?.root_layout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

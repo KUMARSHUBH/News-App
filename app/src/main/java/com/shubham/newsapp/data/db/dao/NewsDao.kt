@@ -1,4 +1,4 @@
-package com.shubham.newsapp.data.db
+package com.shubham.newsapp.data.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

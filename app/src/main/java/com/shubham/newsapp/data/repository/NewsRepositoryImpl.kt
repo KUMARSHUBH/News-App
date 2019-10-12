@@ -1,9 +1,9 @@
 package com.shubham.newsapp.data.repository
 
 import androidx.lifecycle.LiveData
-import com.shubham.newsapp.data.db.NewsDao
+import com.shubham.newsapp.data.db.dao.NewsDao
 import com.shubham.newsapp.data.db.entity.Article
-import com.shubham.newsapp.data.network.NewsNetworkDataSource
+import com.shubham.newsapp.data.network.dataSource.NewsNetworkDataSource
 import com.shubham.newsapp.data.network.response.NewsResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

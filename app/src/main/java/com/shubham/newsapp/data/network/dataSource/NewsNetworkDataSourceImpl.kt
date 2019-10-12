@@ -1,13 +1,15 @@
-package com.shubham.newsapp.data.network
+package com.shubham.newsapp.data.network.dataSource
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.shubham.newsapp.data.network.NewsApiservice
 import com.shubham.newsapp.data.network.response.NewsResponse
 import com.shubham.newsapp.internal.NoConnectivityException
 
 class NewsNetworkDataSourceImpl(
-    private val newsApiservice: NewsApiservice) :
+    private val newsApiservice: NewsApiservice
+) :
     NewsNetworkDataSource {
 
     private val _downloadedNews = MutableLiveData<NewsResponse>()
