@@ -77,6 +77,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
         shimmer_layout.visibility = View.GONE
         view_pager.adapter = ViewPagerAdapter(this@MyFeed.context,it, this)
         view_pager.setPageTransformer(true, ViewPageTransformer())
+
         Toast.makeText(this.context,"Feed updated",Toast.LENGTH_SHORT).show()
 
 
@@ -88,6 +89,14 @@ class MyFeed : ScopedFragment(), KodeinAware {
         shimmer_layout.stopShimmerAnimation()
         super.onStop()
     }
+
+
+    override fun onPause() {
+        Toast.makeText(this@MyFeed.context,"Pause",Toast.LENGTH_SHORT).show()
+        super.onPause()
+
+    }
+
     }
 
 

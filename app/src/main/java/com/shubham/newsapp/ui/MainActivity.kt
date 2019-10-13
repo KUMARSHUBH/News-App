@@ -2,6 +2,7 @@ package com.shubham.newsapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AccelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -45,6 +47,19 @@ class MainActivity : AppCompatActivity() {
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
+
+                if(position == 0){
+
+                    root_layout.animate().translationY(root_layout.top.toFloat())
+                        .setInterpolator(AccelerateInterpolator()).start()
+                }
+
+                else{
+
+                    root_layout.animate().translationY(-root_layout.bottom.toFloat())
+                        .setInterpolator(AccelerateInterpolator()).start()
+                }
+
             }
 
             override fun onPageSelected(position: Int) {
