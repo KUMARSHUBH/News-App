@@ -3,10 +3,9 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@android:color/white">
-
 
     <SearchView
         android:id="@+id/searchView"
@@ -15,75 +14,313 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginEnd="16dp"
-        android:background="@android:color/background_light"
+        android:background="#D3D3D3"
+        android:queryHint="Search latest news ..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/border"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         android:background="@android:color/darker_gray"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:id="@+id/scroll_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        android:animateLayoutChanges="true"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/border"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/sources_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="SOURCES"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
+
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/sources_recycler_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/sources_text_view" />
 
+            <TextView
+                android:id="@+id/categories_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:padding="8dp"
+                android:text="CATEGORIES"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/sources_recycler_view" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/business"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
+                android:padding="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="14dp"
+                app:layout_constraintEnd_toStartOf="@+id/sports"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categories_view"
+                app:strokeColor="#00bfff"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_margin="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/business" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:paddingStart="4dp"
+                        android:text="Business"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/sports"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:layout_marginEnd="8dp"
+                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
+                android:padding="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="14dp"
+                app:layout_constraintBottom_toBottomOf="@id/business"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/business"
+                app:strokeColor="#00bfff"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_margin="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/sports" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:paddingStart="4dp"
+                        android:text="Sports"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/entertainment"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:layout_marginStart="8dp"
+                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
+                android:padding="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="14dp"
+                app:layout_constraintEnd_toEndOf="@id/business"
+                app:layout_constraintStart_toStartOf="@id/business"
+                app:layout_constraintTop_toBottomOf="@id/business"
+                app:strokeColor="#00bfff"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_margin="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/entertainment" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:paddingStart="4dp"
+                        android:text="Entertainment"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/general"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:layout_marginEnd="8dp"
+                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
+                android:padding="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="14dp"
+                app:layout_constraintBottom_toBottomOf="@id/entertainment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/entertainment"
+                app:strokeColor="#00bfff"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_margin="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/general" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:paddingStart="4dp"
+                        android:text="General"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/health"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:layout_marginStart="8dp"
+                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
+                android:padding="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="14dp"
+                app:layout_constraintEnd_toEndOf="@id/entertainment"
+                app:layout_constraintStart_toStartOf="@id/entertainment"
+                app:layout_constraintTop_toBottomOf="@id/entertainment"
+                app:strokeColor="#00bfff"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_margin="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/health" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:paddingStart="4dp"
+                        android:text="Health"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/science"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:layout_marginEnd="8dp"
+                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
+                android:padding="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="14dp"
+                app:layout_constraintBottom_toBottomOf="@id/health"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/health"
+                app:strokeColor="#00bfff"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_margin="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/science" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:paddingStart="4dp"
+                        android:text="Science"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <RelativeLayout
-            android:layout_width="20dp"
-            android:layout_height="20dp">
-
-
-        </RelativeLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 

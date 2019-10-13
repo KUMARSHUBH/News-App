@@ -32,8 +32,7 @@ class ViewPagerAdapter(
 
     val constraint_layout = (fragment.activity as MainActivity).root_layout
     val action_bar = (fragment.activity as MainActivity).supportActionBar
-    val toolbar = (fragment.activity as MainActivity).toolbar
-    var CONSTRAINT_STATE = 0
+    private var CONSTRAINT_STATE = 0
 
     override fun isViewFromObject(view: View, objeect: Any): Boolean {
 
@@ -85,6 +84,8 @@ class ViewPagerAdapter(
                     .setInterpolator(AccelerateInterpolator()).start()
 
                 CONSTRAINT_STATE = 0
+
+//                constraint_layout.visibility = View.INVISIBLE
             }
 
 
@@ -92,6 +93,8 @@ class ViewPagerAdapter(
 
                 constraint_layout.animate().translationY(constraint_layout.top.toFloat())
                    .setInterpolator(AccelerateInterpolator()).start()
+
+//                constraint_layout.visibility = View.VISIBLE
                 CONSTRAINT_STATE = 1
             }
 
