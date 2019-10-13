@@ -93,8 +93,6 @@ dependencies {
     //Shimmer
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 
-
-    //Random Color
-    implementation 'com.github.lzyzsd.randomcolor:library:1.0.0'
-    implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    //Preference
+    implementation "androidx.preference:preference-ktx:1.1.0"
 }

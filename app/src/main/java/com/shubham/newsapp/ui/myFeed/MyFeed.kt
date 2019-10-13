@@ -91,12 +91,6 @@ class MyFeed : ScopedFragment(), KodeinAware {
     }
 
 
-    override fun onPause() {
-        Toast.makeText(this@MyFeed.context,"Pause",Toast.LENGTH_SHORT).show()
-        super.onPause()
-
-    }
-
     }
 
 
