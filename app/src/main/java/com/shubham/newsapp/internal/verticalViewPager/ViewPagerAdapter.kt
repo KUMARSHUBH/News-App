@@ -101,6 +101,7 @@ class ViewPagerAdapter(
 
         }
 
+
         itemView.author.setOnClickListener {
             val intent = Intent(context, WebViewActivity::class.java)
             intent.putExtra("SOURCE_URL", news[position].url)
