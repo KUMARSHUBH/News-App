@@ -31,6 +31,11 @@ interface NewsApiservice {
         @Query("language") language : String = "en"
     ) : Deferred<NewsSourcesResponse>
 
+    @GET("everything")
+    fun getEverything(
+        @Query("domains") domains: String? = null
+    ) : Deferred<NewsResponse>
+
     companion object{
         operator fun invoke(
             connectivityInterceptor: ConnectivityInterceptor

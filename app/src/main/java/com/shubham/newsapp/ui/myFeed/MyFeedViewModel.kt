@@ -8,7 +8,14 @@ class MyFeedViewModel(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
 
+    var domain: String = "wsj.com"
+
     val news by lazyDeferred {
         newsRepository.getNews()
+    }
+
+    val newsFromSource by lazyDeferred {
+
+        newsRepository.getNewsFromSource(domain)
     }
 }

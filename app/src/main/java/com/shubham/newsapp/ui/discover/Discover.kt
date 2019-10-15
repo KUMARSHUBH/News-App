@@ -64,8 +64,10 @@ class Discover : ScopedFragment(), KodeinAware {
             addAll(items)
         }
         sources_recycler_view.apply {
+
             layoutManager = LinearLayoutManager(this@Discover.context,LinearLayoutManager.HORIZONTAL,false)
             adapter = groupAdapter
+
         }
 
     }
@@ -73,7 +75,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
     private fun List<SourceX>.toNewsSourcesItem() : List<NewsSourcesItem>{
         return this.map {
-            NewsSourcesItem(it)
+            NewsSourcesItem(this@Discover.context!!,it,this@Discover)
         }
     }
 

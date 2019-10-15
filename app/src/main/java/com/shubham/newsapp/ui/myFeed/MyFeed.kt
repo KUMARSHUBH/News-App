@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
 import com.shubham.newsapp.internal.ScopedFragment
+import com.shubham.newsapp.internal.getHostName
 import com.shubham.newsapp.internal.verticalViewPager.ViewPagerAdapter
 import com.shubham.newsapp.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,7 +30,10 @@ class MyFeed : ScopedFragment(), KodeinAware {
     private val viewModelFactory: MyFeedViewModelFactory by instance()
 
     private lateinit var viewModel: MyFeedViewModel
-    val constraint_layout = (activity as? MainActivity)?.root_layout
+
+    private val args = arguments?.getBundle("SOURCE_URL")
+    private val source = getHostName(args.toString())
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,11 +45,15 @@ class MyFeed : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
         val context =activity?.applicationContext
-            super.onActivityCreated(savedInstanceState)
+        super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(MyFeedViewModel::class.java)
+
+        viewModel.domain = source
         shimmer_layout.apply {
             startShimmerAnimation()
         }
+
+
 
         val img = (activity as? MainActivity)?.refresh_image_view
         img?.setOnClickListener {
@@ -61,14 +69,32 @@ class MyFeed : ScopedFragment(), KodeinAware {
         bindUI()
     }
 
+    override fun onStop() {
+
+        shimmer_layout.stopShimmerAnimation()
+        super.onStop()
+    }
+
     private fun bindUI()  = launch(Dispatchers.Main) {
 
-        val news = viewModel.news.await()
+        if(args == null){
+            val news = viewModel.news.await()
 
-        news.observe(this@MyFeed, Observer {
-            if(it == null) return@Observer
-            initViewPager(it)
-        })
+            news.observe(this@MyFeed, Observer {
+                if(it == null) return@Observer
+                initViewPager(it)
+            })
+        }
+
+        else
+        {
+            val news = viewModel.newsFromSource.await()
+
+            news.observe(this@MyFeed, Observer {
+                if(it == null) return@Observer
+                initViewPager(it)
+            })
+        }
     }
 
     private fun initViewPager(it: List<Article>) {
@@ -81,17 +107,11 @@ class MyFeed : ScopedFragment(), KodeinAware {
         Toast.makeText(this.context,"Feed updated",Toast.LENGTH_SHORT).show()
 
 
-        }
-
-
-    override fun onStop() {
-
-        shimmer_layout.stopShimmerAnimation()
-        super.onStop()
     }
 
+}
 
-    }
+
 
 
 class ViewPageTransformer : ViewPager.PageTransformer {
@@ -104,7 +124,7 @@ class ViewPageTransformer : ViewPager.PageTransformer {
 
 //            page.translationX = page.width * -position
 //            page.translationY = page.height * -position
-                //-30 * position
+            //-30 * position
         }
 
         else{
@@ -119,4 +139,3 @@ class ViewPageTransformer : ViewPager.PageTransformer {
     }
 
 }
-
