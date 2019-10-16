@@ -13,9 +13,11 @@ import androidx.viewpager.widget.ViewPager
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
 import com.shubham.newsapp.internal.ScopedFragment
+import com.shubham.newsapp.internal.adapters.verticalViewPager.ViewPagerAdapter
 import com.shubham.newsapp.internal.getHostName
-import com.shubham.newsapp.internal.verticalViewPager.ViewPagerAdapter
 import com.shubham.newsapp.ui.MainActivity
+import com.shubham.newsapp.ui.SharedViewModel
+import com.shubham.newsapp.ui.SharedViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.my_feed_fragment.*
 import kotlinx.coroutines.Dispatchers
@@ -27,12 +29,11 @@ import org.kodein.di.generic.instance
 class MyFeed : ScopedFragment(), KodeinAware {
 
     override val kodein by closestKodein()
-    private val viewModelFactory: MyFeedViewModelFactory by instance()
+    private val viewModelFactory: SharedViewModelFactory by instance()
 
-    private lateinit var viewModel: MyFeedViewModel
+    private lateinit var viewModel: SharedViewModel
     val constraint_layout = (activity as? MainActivity)?.root_layout
 
-    var args : Bundle? = null
     var source: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +48,9 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         val context =activity?.applicationContext
             super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this,viewModelFactory).get(MyFeedViewModel::class.java)
+//        viewModel = ViewModelProviders.of(this,viewModelFactory).get(SharedViewModel::class.java)
+
+        viewModel = activity?.let { ViewModelProviders.of(it, viewModelFactory).get(SharedViewModel::class.java) }!!
         shimmer_layout.apply {
             startShimmerAnimation()
         }
@@ -60,14 +63,14 @@ class MyFeed : ScopedFragment(), KodeinAware {
             shimmer_layout.visibility = View.VISIBLE
             shimmer_layout.startShimmerAnimation()
 
-            bindUI()
+            //bindUI()
         }
 
     }
 
     private fun bindUI()  = launch(Dispatchers.Main) {
 
-        if(args == null){
+        if(source == null){
             val news = viewModel.news.await()
 
             news.observe(this@MyFeed, Observer {
@@ -78,9 +81,6 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         else
         {
-
-            viewModel.domain = source!!
-
             val news = viewModel.newsFromSource.await()
             news.observe(this@MyFeed, Observer {
                 if(it == null) return@Observer
@@ -100,7 +100,6 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         Toast.makeText(this.context,"Feed updated",Toast.LENGTH_SHORT).show()
 
-
         }
 
 
@@ -114,12 +113,11 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         super.onResume()
 
-        shimmer_layout.apply {
-            startShimmerAnimation()
-        }
+        source = getHostName(viewModel.returnDomain())
 
-        args = arguments?.getBundle("SOURCE_URL")
-        source = getHostName(args.toString())
+//        shimmer_layout.apply {
+//            startShimmerAnimation()
+//        }
 
         bindUI()
 

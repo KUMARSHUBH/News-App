@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import com.shubham.newsapp.R
-import com.shubham.newsapp.internal.FragmentStatePagerItemAdapter
+import com.shubham.newsapp.internal.adapters.FragmentStatePagerItemAdapter
 import com.shubham.newsapp.ui.discover.Discover
 import com.shubham.newsapp.ui.myFeed.MyFeed
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,8 +24,10 @@ class MainActivity : AppCompatActivity() {
             .add(R.string.myFeed, MyFeed::class.java)
             .create()
 
-        adapter = FragmentStatePagerItemAdapter(supportFragmentManager,
-            fragPagerItems)
+        adapter = FragmentStatePagerItemAdapter(
+            supportFragmentManager,
+            fragPagerItems
+        )
 
         settings_image_view.setOnClickListener {
             Intent(this, SettingsActivity::class.java).also {

@@ -15,7 +15,7 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <com.shubham.newsapp.internal.verticalViewPager.VerticalViewPager
+    <com.shubham.newsapp.internal.adapters.verticalViewPager.VerticalViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package com.shubham.newsapp.internal.verticalViewPager
+package com.shubham.newsapp.internal.adapters.verticalViewPager
 
 import android.content.Context
 import android.util.AttributeSet

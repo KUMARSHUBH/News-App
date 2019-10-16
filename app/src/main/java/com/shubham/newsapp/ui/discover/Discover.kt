@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.SourceX
 import com.shubham.newsapp.internal.ScopedFragment
+import com.shubham.newsapp.ui.SharedViewModel
+import com.shubham.newsapp.ui.SharedViewModelFactory
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.discover_fragment.*
@@ -22,9 +24,9 @@ import org.kodein.di.generic.instance
 class Discover : ScopedFragment(), KodeinAware {
 
     override val kodein by closestKodein()
-    private val viewModelFactory: DicoverViewModelFactory by instance()
+    private val viewModelFactory: SharedViewModelFactory by instance()
 
-    private lateinit var viewModel: DiscoverViewModel
+    private lateinit var viewModel: SharedViewModel
 
 
     override fun onCreateView(
@@ -39,7 +41,9 @@ class Discover : ScopedFragment(), KodeinAware {
 
         val context =activity?.applicationContext
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this,viewModelFactory).get(DiscoverViewModel::class.java)
+        //viewModel = ViewModelProviders.of(this,viewModelFactory).get(SharedViewModel::class.java)
+
+        viewModel = activity?.let { ViewModelProviders.of(it, viewModelFactory).get(SharedViewModel::class.java) }!!
 
 
         bindUI()
@@ -79,4 +83,8 @@ class Discover : ScopedFragment(), KodeinAware {
         }
     }
 
+    fun shareInfo(source: String){
+
+        viewModel.selectedDomain(source)
+    }
 }

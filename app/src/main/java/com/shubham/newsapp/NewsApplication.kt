@@ -13,6 +13,7 @@ import com.shubham.newsapp.data.repository.NewsRepository
 import com.shubham.newsapp.data.repository.NewsRepositoryImpl
 import com.shubham.newsapp.data.repository.NewsSourceRepository
 import com.shubham.newsapp.data.repository.NewsSourceRepositoryImpl
+import com.shubham.newsapp.ui.SharedViewModelFactory
 import com.shubham.newsapp.ui.discover.DicoverViewModelFactory
 import com.shubham.newsapp.ui.myFeed.MyFeedViewModelFactory
 import org.kodein.di.Kodein
@@ -55,5 +56,6 @@ class NewsApplication : Application(), KodeinAware {
 
         bind() from provider { MyFeedViewModelFactory(instance()) }
         bind() from provider { DicoverViewModelFactory(instance()) }
+        bind() from provider { SharedViewModelFactory(instance(),instance()) }
     }
 }
