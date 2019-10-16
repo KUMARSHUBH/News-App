@@ -73,7 +73,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
     private fun List<SourceX>.toNewsSourcesItem() : List<NewsSourcesItem>{
         return this.map {
-            NewsSourcesItem(it)
+            NewsSourcesItem(this@Discover.context!!,it,this@Discover)
         }
     }
 

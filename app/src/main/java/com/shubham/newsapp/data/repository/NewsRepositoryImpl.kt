@@ -15,16 +15,25 @@ class NewsRepositoryImpl(
     private val newsNetworkDataSource: NewsNetworkDataSource
 ) : NewsRepository {
 
-    init {
-         newsNetworkDataSource
-             .apply {
-             downloadedNews.observeForever { newFetchedNews ->
-                 persistFetchedCurrentWeather(newFetchedNews)
-             }
-         }
+    override suspend fun getNewsFromSource(domain: String): LiveData<List<Article>> {
+        return withContext(Dispatchers.IO){
+
+            getAllNewsFromSources(domain)
+            return@withContext newsDao.getNews()
+        }
     }
 
-    private fun persistFetchedCurrentWeather(fetchedNews: NewsResponse) {
+
+    init {
+        newsNetworkDataSource
+            .apply {
+                downloadedNews.observeForever { newFetchedNews ->
+                    persistFetchedNews(newFetchedNews)
+                }
+            }
+    }
+
+    private fun persistFetchedNews(fetchedNews: NewsResponse) {
 
         fun deleteOldFetchedNews(){
             newsDao.deleteOldNews()
@@ -41,7 +50,7 @@ class NewsRepositoryImpl(
     override suspend fun getNews(): LiveData<List<Article>> {
 
         return withContext(Dispatchers.IO){
-            
+
             getAllNews()
             return@withContext newsDao.getNews()
         }
@@ -49,5 +58,10 @@ class NewsRepositoryImpl(
 
     private suspend fun getAllNews() {
         newsNetworkDataSource.fetchNews("india")
+    }
+
+    private suspend fun getAllNewsFromSources(domain: String)
+    {
+        newsNetworkDataSource.fetchNewsFromSource(domain)
     }
 }

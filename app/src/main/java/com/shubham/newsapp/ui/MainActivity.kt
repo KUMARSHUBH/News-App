@@ -6,14 +6,15 @@ import android.view.animation.AccelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentStatePagerItemAdapter
 import com.shubham.newsapp.R
+import com.shubham.newsapp.internal.FragmentStatePagerItemAdapter
 import com.shubham.newsapp.ui.discover.Discover
 import com.shubham.newsapp.ui.myFeed.MyFeed
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var adapter: FragmentStatePagerItemAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             .add(R.string.myFeed, MyFeed::class.java)
             .create()
 
-        val adapter = FragmentStatePagerItemAdapter(supportFragmentManager,
+        adapter = FragmentStatePagerItemAdapter(supportFragmentManager,
             fragPagerItems)
 
         settings_image_view.setOnClickListener {
@@ -74,6 +75,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+
+
+
+    override fun onResume() {
+        adapter.notifyDataSetChanged()
+        super.onResume()
+    }
 
 
     private fun showSettings(){

@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
 import com.shubham.newsapp.internal.ScopedFragment
+import com.shubham.newsapp.internal.getHostName
 import com.shubham.newsapp.internal.verticalViewPager.ViewPagerAdapter
 import com.shubham.newsapp.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,6 +31,9 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
     private lateinit var viewModel: MyFeedViewModel
     val constraint_layout = (activity as? MainActivity)?.root_layout
+
+    var args : Bundle? = null
+    var source: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +41,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         return inflater.inflate(R.layout.my_feed_fragment, container, false)
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
@@ -58,17 +63,32 @@ class MyFeed : ScopedFragment(), KodeinAware {
             bindUI()
         }
 
-        bindUI()
     }
 
     private fun bindUI()  = launch(Dispatchers.Main) {
 
-        val news = viewModel.news.await()
+        if(args == null){
+            val news = viewModel.news.await()
 
-        news.observe(this@MyFeed, Observer {
-            if(it == null) return@Observer
-            initViewPager(it)
-        })
+            news.observe(this@MyFeed, Observer {
+                if(it == null) return@Observer
+                initViewPager(it)
+            })
+        }
+
+        else
+        {
+
+            viewModel.domain = source!!
+
+            val news = viewModel.newsFromSource.await()
+            news.observe(this@MyFeed, Observer {
+                if(it == null) return@Observer
+                initViewPager(it)
+            })
+
+        }
+
     }
 
     private fun initViewPager(it: List<Article>) {
@@ -90,6 +110,21 @@ class MyFeed : ScopedFragment(), KodeinAware {
         super.onStop()
     }
 
+    override fun onResume() {
+
+        super.onResume()
+
+        shimmer_layout.apply {
+            startShimmerAnimation()
+        }
+
+        args = arguments?.getBundle("SOURCE_URL")
+        source = getHostName(args.toString())
+
+        bindUI()
+
+        Toast.makeText(this@MyFeed.context,"$source",Toast.LENGTH_SHORT).show()
+    }
 
     }
 

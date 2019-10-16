@@ -8,4 +8,5 @@ interface NewsNetworkDataSource{
     val downloadedNews: LiveData<NewsResponse>
 
     suspend fun fetchNews(query: String)
+    suspend fun fetchNewsFromSource(domains: String)
 }
