@@ -9,7 +9,9 @@ class MyFeedViewModelFactory(
     private val newsRepository: NewsRepository
 ): ViewModelProvider.NewInstanceFactory() {
 
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+
         return MyFeedViewModel(newsRepository) as T
     }
 }

@@ -64,8 +64,10 @@ class Discover : ScopedFragment(), KodeinAware {
             addAll(items)
         }
         sources_recycler_view.apply {
+
             layoutManager = LinearLayoutManager(this@Discover.context,LinearLayoutManager.HORIZONTAL,false)
             adapter = groupAdapter
+
         }
 
     }
