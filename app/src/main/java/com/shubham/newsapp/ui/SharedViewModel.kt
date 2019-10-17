@@ -16,6 +16,8 @@ class SharedViewModel(
 
     private var domain: String? = null
 
+    private var itemClicked: String = ""
+
     fun selectedDomain(value: String){
         domain = value
     }
@@ -26,6 +28,16 @@ class SharedViewModel(
             null
         else
             domain
+    }
+
+    fun selectedItem(value: String){
+
+        itemClicked = value
+    }
+
+    fun returnItem(): String{
+
+        return itemClicked
     }
 
     val news by lazyDeferred {
@@ -39,6 +51,11 @@ class SharedViewModel(
 
     val newsSources by lazyDeferred {
         newsSourceRepository.getNewsSources()
+    }
+
+
+    val topNews by lazyDeferred{
+        newsRepository.getTopNews("en")
     }
 
 }

@@ -25,6 +25,10 @@ interface NewsApiservice {
         @Query("q") query:String
     ): Deferred<NewsResponse>
 
+    @GET("top-headlines")
+    fun getTopNews(
+        @Query("language") language: String = "en"
+    ) : Deferred<NewsResponse>
 
     @GET("sources")
     fun getSources(

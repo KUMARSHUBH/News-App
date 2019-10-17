@@ -9,4 +9,5 @@ interface NewsNetworkDataSource{
 
     suspend fun fetchNews(query: String)
     suspend fun fetchNewsFromSource(domains: String)
+    suspend fun fetchTopNews(language: String)
 }

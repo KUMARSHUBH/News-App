@@ -70,15 +70,29 @@ class MyFeed : ScopedFragment(), KodeinAware {
     private fun bindUI()  = launch(Dispatchers.Main) {
 
         if(source == null){
-            val news = viewModel.news.await()
 
-            news.observe(this@MyFeed, Observer {
-                if(it == null) return@Observer
+            if(viewModel.returnItem()  == ""){
+                val news = viewModel.news.await()
 
+                news.observe(this@MyFeed, Observer {
+                    if(it == null) return@Observer
 
-                //Toast.makeText(this@MyFeed.context,"${it.size}",Toast.LENGTH_SHORT).show()
-                initViewPager(it)
-            })
+                    initViewPager(it)
+                })
+            }
+            else{
+                if(viewModel.returnItem() == "all_news"){
+
+                    val news = viewModel.topNews.await()
+
+                    news.observe(this@MyFeed, Observer {
+                        if(it == null) return@Observer
+
+                        initViewPager(it)
+                    })
+                }
+            }
+
         }
 
         else
@@ -95,6 +109,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
             })
 
         }
+
 
     }
 
@@ -121,9 +136,14 @@ class MyFeed : ScopedFragment(), KodeinAware {
         super.onResume()
 
         val domain = viewModel.returnDomain()
+        val itemClicked = viewModel.returnItem()
 
-        if(domain != null)
+        if(domain != null){
+
             source = getHostName(domain)
+            Toast.makeText(this@MyFeed.context,"$source",Toast.LENGTH_SHORT).show()
+        }
+
 
         shimmer_layout.apply {
             visibility = View.VISIBLE
@@ -131,8 +151,6 @@ class MyFeed : ScopedFragment(), KodeinAware {
         }
 
         bindUI()
-
-        Toast.makeText(this@MyFeed.context,"$source",Toast.LENGTH_SHORT).show()
 
     }
 

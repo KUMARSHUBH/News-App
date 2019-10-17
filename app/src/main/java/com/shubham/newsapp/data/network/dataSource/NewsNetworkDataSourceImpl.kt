@@ -12,7 +12,17 @@ class NewsNetworkDataSourceImpl(
 ) :
 
     NewsNetworkDataSource {
+    override suspend fun fetchTopNews(language: String) {
 
+        try {
+            val fetchedNews = newsApiservice.getTopNews(language).await()
+            _downloadedNews.postValue(fetchedNews)
+
+        }catch (e: NoConnectivityException){
+            Log.e("Connectivity", "No internet connection", e)
+        }
+
+    }
 
 
     private val _downloadedNews = MutableLiveData<NewsResponse>()
