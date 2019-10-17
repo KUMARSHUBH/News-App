@@ -33,7 +33,7 @@ interface NewsApiservice {
 
     @GET("everything")
     fun getEverything(
-        @Query("domains") domains: String? = null
+        @Query("domains") domains: String
     ) : Deferred<NewsResponse>
 
     companion object{

@@ -7,5 +7,5 @@ interface NewsRepository {
 
     suspend fun getNews() : LiveData<List<Article>>
 
-    suspend fun getNewsFromSource(domain: String): LiveData<List<Article>>
+    suspend fun getNewsFromSource(domains: String): LiveData<List<Article>>
 }

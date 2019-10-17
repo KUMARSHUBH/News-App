@@ -1,9 +1,9 @@
 package com.shubham.newsapp.ui
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shubham.newsapp.data.repository.NewsRepository
 import com.shubham.newsapp.data.repository.NewsSourceRepository
+import com.shubham.newsapp.internal.getHostName
 import com.shubham.newsapp.internal.lazyDeferred
 
 class SharedViewModel(
@@ -12,14 +12,20 @@ class SharedViewModel(
 
 ) : ViewModel() {
 
-    private val domain = MutableLiveData<String>()
+    //private val domain = MutableLiveData<String>()
+
+    private var domain: String? = null
 
     fun selectedDomain(value: String){
-        domain.value = value
+        domain = value
     }
 
-    fun returnDomain(): String{
-        return domain.value.toString()
+    fun returnDomain(): String?{
+
+        return if (domain == null)
+            null
+        else
+            domain
     }
 
     val news by lazyDeferred {
@@ -28,7 +34,7 @@ class SharedViewModel(
 
     val newsFromSource by lazyDeferred {
 
-        newsRepository.getNewsFromSource(domain.toString())
+        newsRepository.getNewsFromSource(getHostName(domain.toString()))
     }
 
     val newsSources by lazyDeferred {

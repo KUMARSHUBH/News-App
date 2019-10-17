@@ -15,10 +15,10 @@ class NewsRepositoryImpl(
     private val newsNetworkDataSource: NewsNetworkDataSource
 ) : NewsRepository {
 
-    override suspend fun getNewsFromSource(domain: String): LiveData<List<Article>> {
+    override suspend fun getNewsFromSource(domains: String): LiveData<List<Article>> {
         return withContext(Dispatchers.IO){
 
-            getAllNewsFromSources(domain)
+            getAllNewsFromSources(domains)
             return@withContext newsDao.getNews()
         }
     }
@@ -60,8 +60,8 @@ class NewsRepositoryImpl(
         newsNetworkDataSource.fetchNews("india")
     }
 
-    private suspend fun getAllNewsFromSources(domain: String)
+    private suspend fun getAllNewsFromSources(domains: String)
     {
-        newsNetworkDataSource.fetchNewsFromSource(domain)
+        newsNetworkDataSource.fetchNewsFromSource(domains)
     }
 }

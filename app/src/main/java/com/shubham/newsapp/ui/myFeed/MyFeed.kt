@@ -32,7 +32,6 @@ class MyFeed : ScopedFragment(), KodeinAware {
     private val viewModelFactory: SharedViewModelFactory by instance()
 
     private lateinit var viewModel: SharedViewModel
-    val constraint_layout = (activity as? MainActivity)?.root_layout
 
     var source: String? = null
     override fun onCreateView(
@@ -75,6 +74,9 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
             news.observe(this@MyFeed, Observer {
                 if(it == null) return@Observer
+
+
+                //Toast.makeText(this@MyFeed.context,"${it.size}",Toast.LENGTH_SHORT).show()
                 initViewPager(it)
             })
         }
@@ -83,7 +85,12 @@ class MyFeed : ScopedFragment(), KodeinAware {
         {
             val news = viewModel.newsFromSource.await()
             news.observe(this@MyFeed, Observer {
-                if(it == null) return@Observer
+                if(it == null) {
+                    return@Observer
+                }
+
+                if(it.size == 0)
+                    Toast.makeText(this@MyFeed.context,"Error",Toast.LENGTH_SHORT).show()
                 initViewPager(it)
             })
 
@@ -113,15 +120,20 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         super.onResume()
 
-        source = getHostName(viewModel.returnDomain())
+        val domain = viewModel.returnDomain()
 
-//        shimmer_layout.apply {
-//            startShimmerAnimation()
-//        }
+        if(domain != null)
+            source = getHostName(domain)
+
+        shimmer_layout.apply {
+            visibility = View.VISIBLE
+            startShimmerAnimation()
+        }
 
         bindUI()
 
         Toast.makeText(this@MyFeed.context,"$source",Toast.LENGTH_SHORT).show()
+
     }
 
     }
