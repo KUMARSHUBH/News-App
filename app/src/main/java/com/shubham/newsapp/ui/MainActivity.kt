@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
 
                     root_layout.animate().translationY(root_layout.top.toFloat())
                         .setInterpolator(AccelerateInterpolator()).start()
+
                 }
 
                 else{

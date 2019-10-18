@@ -33,7 +33,6 @@ class NewsRepositoryImpl(
         }
     }
 
-
     init {
         newsNetworkDataSource
             .apply {

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -46,7 +47,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
         val context =activity?.applicationContext
-            super.onActivityCreated(savedInstanceState)
+        super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProviders.of(this,viewModelFactory).get(SharedViewModel::class.java)
 
         viewModel = activity?.let { ViewModelProviders.of(it, viewModelFactory).get(SharedViewModel::class.java) }!!
@@ -62,54 +63,44 @@ class MyFeed : ScopedFragment(), KodeinAware {
             shimmer_layout.visibility = View.VISIBLE
             shimmer_layout.startShimmerAnimation()
 
-            //bindUI()
+            bindUI()
         }
 
     }
 
     private fun bindUI()  = launch(Dispatchers.Main) {
 
-        if(source == null){
+        val news : LiveData<List<Article>>
 
-            if(viewModel.returnItem()  == ""){
-                val news = viewModel.news.await()
+        if(source != null){
 
-                news.observe(this@MyFeed, Observer {
-                    if(it == null) return@Observer
-
-                    initViewPager(it)
-                })
-            }
-            else{
-                if(viewModel.returnItem() == "all_news"){
-
-                    val news = viewModel.topNews.await()
-
-                    news.observe(this@MyFeed, Observer {
-                        if(it == null) return@Observer
-
-                        initViewPager(it)
-                    })
-                }
-            }
-
-        }
-
-        else
-        {
-            val news = viewModel.newsFromSource.await()
+            viewModel.test()
+            news = viewModel.newsFromSources.await()
             news.observe(this@MyFeed, Observer {
                 if(it == null) {
                     return@Observer
                 }
 
-                if(it.size == 0)
+                if(it.isEmpty())
                     Toast.makeText(this@MyFeed.context,"Error",Toast.LENGTH_SHORT).show()
+
+                else
                 initViewPager(it)
             })
 
         }
 
+        else
+        {
+            news = viewModel.news.await()
+
+            news.observe(this@MyFeed, Observer {
+                if(it == null) return@Observer
+
+                initViewPager(it)
+            })
+
+        }
 
     }
 
@@ -122,7 +113,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         Toast.makeText(this.context,"Feed updated",Toast.LENGTH_SHORT).show()
 
-        }
+    }
 
 
     override fun onStop() {
@@ -134,16 +125,10 @@ class MyFeed : ScopedFragment(), KodeinAware {
     override fun onResume() {
 
         super.onResume()
-
         val domain = viewModel.returnDomain()
-        val itemClicked = viewModel.returnItem()
 
-        if(domain != null){
-
+        if(domain != null)
             source = getHostName(domain)
-            Toast.makeText(this@MyFeed.context,"$source",Toast.LENGTH_SHORT).show()
-        }
-
 
         shimmer_layout.apply {
             visibility = View.VISIBLE
@@ -152,9 +137,12 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         bindUI()
 
-    }
+        if(source != null)
+            Toast.makeText(this@MyFeed.context,"$source",Toast.LENGTH_SHORT).show()
 
     }
+
+}
 
 
 class ViewPageTransformer : ViewPager.PageTransformer {
@@ -164,10 +152,6 @@ class ViewPageTransformer : ViewPager.PageTransformer {
             page.translationX = page.width * -position
             page.translationY = page.height * position
 
-
-//            page.translationX = page.width * -position
-//            page.translationY = page.height * -position
-                //-30 * position
         }
 
         else{
@@ -176,10 +160,8 @@ class ViewPageTransformer : ViewPager.PageTransformer {
             page.translationY = page.height * position * 0.5f
             page.setBackgroundColor(Color.BLACK)
 
-
         }
 
     }
 
 }
-

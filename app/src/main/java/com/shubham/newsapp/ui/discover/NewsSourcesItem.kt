@@ -20,20 +20,14 @@ class NewsSourcesItem(
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
 
-
         viewHolder.apply {
 
             source_name.text = sources.name
-
             source_image.setOnClickListener {
 
 
-//                args.putString("SOURCE_URL", getHostName(sources.url))
-//                frag.arguments = args
-
                 (fragment as Discover).shareInfo(sources.url)
 
-//                Toast.makeText(context, sources.url,Toast.LENGTH_SHORT).show()
 
                 val vp = (fragment.activity as MainActivity).viewPager
 
