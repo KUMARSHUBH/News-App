@@ -4,16 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.SourceX
 import com.shubham.newsapp.internal.ScopedFragment
+import com.shubham.newsapp.ui.MainActivity
 import com.shubham.newsapp.ui.SharedViewModel
 import com.shubham.newsapp.ui.SharedViewModelFactory
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.discover_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,6 +65,20 @@ class Discover : ScopedFragment(), KodeinAware {
             initSourcesRecyclerView(entries.toNewsSourcesItem())
 
         })
+
+
+        top_stories.setOnClickListener {
+
+            viewModel.selectedDomain(null)
+
+            Toast.makeText(this@Discover.context,"Top Stories",Toast.LENGTH_LONG).show()
+            viewModel.selectedItem("top_stories")
+
+            val vp = (activity as MainActivity).viewPager
+            vp.viewPager.currentItem = vp.currentItem + 1
+
+
+        }
     }
 
     private fun initSourcesRecyclerView(items: List<NewsSourcesItem>) {
@@ -86,5 +104,9 @@ class Discover : ScopedFragment(), KodeinAware {
 
     fun shareInfo(source: String){
         viewModel.selectedDomain(source)
+    }
+
+    fun setNull(){
+        viewModel.selectedItem(null)
     }
 }

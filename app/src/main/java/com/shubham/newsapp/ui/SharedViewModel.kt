@@ -18,14 +18,28 @@ class SharedViewModel(
 
 ) : ViewModel() {
 
-    //private val domain = MutableLiveData<String>()
 
     private var domain: String? = null
+    private var selected: String? = null
 
     lateinit var newsFromSources: Deferred<LiveData<List<Article>>>
+    lateinit var topNews: Deferred<LiveData<List<Article>>>
 
     fun selectedDomain(value: String?){
         domain = value
+    }
+
+    fun returnSelected(): String?{
+
+        return if (selected == null)
+            null
+        else
+            selected
+    }
+
+
+    fun selectedItem(value: String?){
+        selected = value
     }
 
     fun returnDomain(): String?{
@@ -40,27 +54,32 @@ class SharedViewModel(
         newsRepository.getNews()
     }
 
-//    val newsFromSource by lazyDeferred {
-//
-//        newsRepository.getNewsFromSource(getHostName(domain!!))
-//    }
-
     val newsSources by lazyDeferred {
         newsSourceRepository.getNewsSources()
     }
 
 
-    val topNews by lazyDeferred{
-        newsRepository.getTopNews("en")
+//    val topNews by lazyDeferred{
+//        newsRepository.getTopNews("en")
+//    }
+
+    fun fetchTopNews(){
+
+        topNews =  GlobalScope.async {
+
+            newsRepository.getTopNews("en")
+        }
     }
 
-    fun test(){
+    fun fetchNewsFromSources(){
 
         newsFromSources = GlobalScope.async {
 
              newsRepository.getNewsFromSource(getHostName(domain!!))
         }
     }
+
+
 
 }
 

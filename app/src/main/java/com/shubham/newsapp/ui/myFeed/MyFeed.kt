@@ -35,6 +35,8 @@ class MyFeed : ScopedFragment(), KodeinAware {
     private lateinit var viewModel: SharedViewModel
 
     var source: String? = null
+    var selectedItem : String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,7 +76,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         if(source != null){
 
-            viewModel.test()
+            viewModel.fetchNewsFromSources()
             news = viewModel.newsFromSources.await()
             news.observe(this@MyFeed, Observer {
                 if(it == null) {
@@ -92,13 +94,28 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         else
         {
-            news = viewModel.news.await()
+            if(selectedItem != null){
 
-            news.observe(this@MyFeed, Observer {
-                if(it == null) return@Observer
+                viewModel.fetchTopNews()
+                news = viewModel.topNews.await()
 
-                initViewPager(it)
-            })
+                news.observe(this@MyFeed, Observer {
+                    if(it == null) return@Observer
+
+                    initViewPager(it)
+                })
+            }
+
+            else{
+
+                news = viewModel.news.await()
+
+                news.observe(this@MyFeed, Observer {
+                    if(it == null) return@Observer
+
+                    initViewPager(it)
+                })
+            }
 
         }
 
@@ -126,9 +143,13 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         super.onResume()
         val domain = viewModel.returnDomain()
+        selectedItem = viewModel.returnSelected()
 
         if(domain != null)
             source = getHostName(domain)
+        else
+            source = null
+
 
         shimmer_layout.apply {
             visibility = View.VISIBLE

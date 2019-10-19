@@ -26,7 +26,8 @@ class NewsSourcesItem(
             source_image.setOnClickListener {
 
 
-                (fragment as Discover).shareInfo(sources.url)
+                (fragment as Discover).setNull()
+                fragment.shareInfo(sources.url)
 
 
                 val vp = (fragment.activity as MainActivity).viewPager
