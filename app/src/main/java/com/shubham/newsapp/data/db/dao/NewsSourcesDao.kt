@@ -16,6 +16,9 @@ interface NewsSourcesDao {
     @Query("select * from news_sources")
     fun getSources() : LiveData<List<SourceX>>
 
+    @Query("select * from news_sources")
+    fun getSourcesList() : List<SourceX>
+
     @Query("delete from news_sources")
     fun deleteOldSources()
 }

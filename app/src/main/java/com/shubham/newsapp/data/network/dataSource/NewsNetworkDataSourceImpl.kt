@@ -12,6 +12,19 @@ class NewsNetworkDataSourceImpl(
 ) :
 
     NewsNetworkDataSource {
+
+    override suspend fun fetchEverything(domains: String) {
+
+        try {
+
+            val fetchedNews = newsApiservice.getAllTheNews(domains).await()
+            _downloadedNews.postValue(fetchedNews)
+
+        }catch (e: NoConnectivityException){
+            Log.e("Connectivity", "No internet connection", e)
+        }
+    }
+
     override suspend fun fetchTopNews(language: String) {
 
         try {

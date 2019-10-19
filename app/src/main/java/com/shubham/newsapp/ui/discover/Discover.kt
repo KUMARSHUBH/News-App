@@ -79,6 +79,18 @@ class Discover : ScopedFragment(), KodeinAware {
 
 
         }
+
+        all_news.setOnClickListener {
+
+            viewModel.selectedDomain(null)
+
+            Toast.makeText(this@Discover.context,"All news",Toast.LENGTH_LONG).show()
+            viewModel.selectedItem("all_news")
+
+            val vp = (activity as MainActivity).viewPager
+            vp.viewPager.currentItem = vp.currentItem + 1
+
+        }
     }
 
     private fun initSourcesRecyclerView(items: List<NewsSourcesItem>) {

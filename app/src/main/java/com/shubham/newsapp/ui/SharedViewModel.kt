@@ -24,12 +24,13 @@ class SharedViewModel(
 
     lateinit var newsFromSources: Deferred<LiveData<List<Article>>>
     lateinit var topNews: Deferred<LiveData<List<Article>>>
+    lateinit var allNews: Deferred<LiveData<List<Article>>>
 
-    fun selectedDomain(value: String?){
+    fun selectedDomain(value: String?) {
         domain = value
     }
 
-    fun returnSelected(): String?{
+    fun returnSelected(): String? {
 
         return if (selected == null)
             null
@@ -38,11 +39,11 @@ class SharedViewModel(
     }
 
 
-    fun selectedItem(value: String?){
+    fun selectedItem(value: String?) {
         selected = value
     }
 
-    fun returnDomain(): String?{
+    fun returnDomain(): String? {
 
         return if (domain == null)
             null
@@ -59,27 +60,31 @@ class SharedViewModel(
     }
 
 
-//    val topNews by lazyDeferred{
-//        newsRepository.getTopNews("en")
-//    }
+    fun fetchTopNews() {
 
-    fun fetchTopNews(){
-
-        topNews =  GlobalScope.async {
+        topNews = GlobalScope.async {
 
             newsRepository.getTopNews("en")
         }
     }
 
-    fun fetchNewsFromSources(){
+    fun fetchNewsFromSources() {
 
         newsFromSources = GlobalScope.async {
 
-             newsRepository.getNewsFromSource(getHostName(domain!!))
+            newsRepository.getNewsFromSource(getHostName(domain!!))
         }
     }
 
 
+    fun fetchAllNews() {
+
+
+        allNews = GlobalScope.async {
+
+            newsRepository.getAllTheNews()
+        }
+    }
 
 }
 

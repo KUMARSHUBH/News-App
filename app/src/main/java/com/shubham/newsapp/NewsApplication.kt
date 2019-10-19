@@ -48,7 +48,7 @@ class NewsApplication : Application(), KodeinAware {
         bind<NewsSourcesNetworkDataSource>() with singleton {
             NewsSourcesNetworkDataSourceImpl(instance())
         }
-        bind<NewsRepository>() with singleton { NewsRepositoryImpl(instance(), instance()) }
+        bind<NewsRepository>() with singleton { NewsRepositoryImpl(instance(), instance(), instance()) }
 
         bind<NewsSourceRepository>() with singleton {
             NewsSourceRepositoryImpl(instance(),instance())

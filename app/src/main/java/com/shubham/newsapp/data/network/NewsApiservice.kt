@@ -40,6 +40,12 @@ interface NewsApiservice {
         @Query("domains") domains: String
     ) : Deferred<NewsResponse>
 
+    @GET("everything")
+    fun getAllTheNews(
+        @Query("domains") domains: String,
+        @Query("sortBy") sortBy: String = "popularity"
+    ) : Deferred<NewsResponse>
+
     companion object{
         operator fun invoke(
             connectivityInterceptor: ConnectivityInterceptor

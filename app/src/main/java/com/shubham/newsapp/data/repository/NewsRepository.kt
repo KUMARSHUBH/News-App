@@ -5,9 +5,13 @@ import com.shubham.newsapp.data.db.entity.Article
 
 interface NewsRepository {
 
-    suspend fun getNews() : LiveData<List<Article>>
+    suspend fun getNews(): LiveData<List<Article>>
 
     suspend fun getNewsFromSource(domains: String): LiveData<List<Article>>
 
     suspend fun getTopNews(language: String): LiveData<List<Article>>
+
+    suspend fun getAllTheNews(): LiveData<List<Article>>
+
+    suspend fun generateSourcesList()
 }
