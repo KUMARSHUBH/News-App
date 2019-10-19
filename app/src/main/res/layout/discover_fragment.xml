@@ -37,8 +37,8 @@
         android:layout_height="0dp"
         android:animateLayoutChanges="true"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/border"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/border">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -82,14 +82,13 @@
                 android:id="@+id/categories_scroll_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/categories_view"
                 android:animateLayoutChanges="true"
+                android:background="@android:color/white"
                 android:fillViewport="true"
                 android:scrollbars="none"
-                android:background="@android:color/white"
-                >
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categories_view">
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -99,40 +98,40 @@
                     android:padding="16dp">
 
                     <com.google.android.material.card.MaterialCardView
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:cardCornerRadius="4dp"
                         android:id="@+id/all_news"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@android:color/white"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:strokeColor="@android:color/white"
-                        app:strokeWidth="2dp"
-                        app:cardElevation="0dp">
+                        app:strokeWidth="2dp">
 
                         <LinearLayout
-                            android:background="@android:color/white"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@android:color/white"
                             android:orientation="vertical">
 
 
                             <ImageView
-                                android:layout_gravity="center"
-                                android:background="@android:color/white"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:src="@drawable/all_news"/>
+                                android:layout_gravity="center"
+                                android:background="@android:color/white"
+                                android:src="@drawable/all_news" />
 
                             <TextView
-                                android:background="@android:color/white"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="ALL NEWS"
                                 android:layout_gravity="center"
+                                android:background="@android:color/white"
                                 android:gravity="center"
-                                android:textStyle="bold"/>
+                                android:text="ALL NEWS"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -260,9 +259,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_margin="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
                         android:src="@drawable/business" />
 
                     <TextView
@@ -300,9 +299,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_margin="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
                         android:src="@drawable/sports" />
 
                     <TextView
@@ -339,9 +338,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_margin="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
                         android:src="@drawable/entertainment" />
 
                     <TextView
@@ -378,9 +377,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_margin="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
                         android:src="@drawable/general" />
 
                     <TextView
@@ -417,9 +416,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_margin="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
                         android:src="@drawable/health" />
 
                     <TextView
@@ -441,6 +440,7 @@
                 android:layout_margin="24dp"
                 android:layout_marginEnd="8dp"
                 android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
+                android:outlineSpotShadowColor="#00bfff"
                 android:padding="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="14dp"
@@ -448,8 +448,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/health"
                 app:strokeColor="#00bfff"
-                app:strokeWidth="2dp"
-                android:outlineSpotShadowColor="#00bfff">
+                app:strokeWidth="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -457,9 +456,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_margin="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_margin="16dp"
                         android:src="@drawable/science" />
 
                     <TextView

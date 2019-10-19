@@ -11,4 +11,5 @@ interface NewsNetworkDataSource{
     suspend fun fetchNewsFromSource(domains: String)
     suspend fun fetchTopNews(language: String)
     suspend fun fetchEverything(domains: String)
+    suspend fun fetchTopHeadlinesCategory(country: String, category: String)
 }

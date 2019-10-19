@@ -44,11 +44,13 @@ class Discover : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-        val context =activity?.applicationContext
+        val context = activity?.applicationContext
         super.onActivityCreated(savedInstanceState)
         //viewModel = ViewModelProviders.of(this,viewModelFactory).get(SharedViewModel::class.java)
 
-        viewModel = activity?.let { ViewModelProviders.of(it, viewModelFactory).get(SharedViewModel::class.java) }!!
+        viewModel = activity?.let {
+            ViewModelProviders.of(it, viewModelFactory).get(SharedViewModel::class.java)
+        }!!
 
 
         bindUI()
@@ -59,8 +61,8 @@ class Discover : ScopedFragment(), KodeinAware {
 
         val sources = viewModel.newsSources.await()
 
-        sources.observe(this@Discover, Observer {entries ->
-            if(entries == null) return@Observer
+        sources.observe(this@Discover, Observer { entries ->
+            if (entries == null) return@Observer
 
             initSourcesRecyclerView(entries.toNewsSourcesItem())
 
@@ -70,8 +72,9 @@ class Discover : ScopedFragment(), KodeinAware {
         top_stories.setOnClickListener {
 
             viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
 
-            Toast.makeText(this@Discover.context,"Top Stories",Toast.LENGTH_LONG).show()
+            Toast.makeText(this@Discover.context, "Top Stories", Toast.LENGTH_LONG).show()
             viewModel.selectedItem("top_stories")
 
             val vp = (activity as MainActivity).viewPager
@@ -83,14 +86,95 @@ class Discover : ScopedFragment(), KodeinAware {
         all_news.setOnClickListener {
 
             viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
 
-            Toast.makeText(this@Discover.context,"All news",Toast.LENGTH_LONG).show()
+            Toast.makeText(this@Discover.context, "All news", Toast.LENGTH_LONG).show()
             viewModel.selectedItem("all_news")
 
             val vp = (activity as MainActivity).viewPager
             vp.viewPager.currentItem = vp.currentItem + 1
 
         }
+
+        bookmarks.setOnClickListener {
+            Toast.makeText(this@Discover.context, "Bookmarks", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+
+        business.setOnClickListener {
+
+            viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
+
+            Toast.makeText(this@Discover.context, "Business", Toast.LENGTH_LONG).show()
+            viewModel.selectedCategory("business")
+
+            val vp = (activity as MainActivity).viewPager
+            vp.viewPager.currentItem = vp.currentItem + 1
+        }
+
+        sports.setOnClickListener {
+
+            viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
+
+            Toast.makeText(this@Discover.context, "Sports", Toast.LENGTH_LONG).show()
+            viewModel.selectedCategory("sports")
+
+            val vp = (activity as MainActivity).viewPager
+            vp.viewPager.currentItem = vp.currentItem + 1
+        }
+
+        entertainment.setOnClickListener {
+
+            viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
+
+            Toast.makeText(this@Discover.context, "Entertainment", Toast.LENGTH_LONG).show()
+            viewModel.selectedCategory("entertainment")
+
+            val vp = (activity as MainActivity).viewPager
+            vp.viewPager.currentItem = vp.currentItem + 1
+        }
+
+        general.setOnClickListener {
+
+            viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
+
+            Toast.makeText(this@Discover.context, "General", Toast.LENGTH_LONG).show()
+            viewModel.selectedCategory("general")
+
+            val vp = (activity as MainActivity).viewPager
+            vp.viewPager.currentItem = vp.currentItem + 1
+        }
+
+        health.setOnClickListener {
+
+            viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
+
+            Toast.makeText(this@Discover.context, "Health", Toast.LENGTH_LONG).show()
+            viewModel.selectedCategory("health")
+
+            val vp = (activity as MainActivity).viewPager
+            vp.viewPager.currentItem = vp.currentItem + 1
+        }
+
+        science.setOnClickListener {
+
+            viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
+
+            Toast.makeText(this@Discover.context, "Science", Toast.LENGTH_LONG).show()
+            viewModel.selectedCategory("science")
+
+            val vp = (activity as MainActivity).viewPager
+            vp.viewPager.currentItem = vp.currentItem + 1
+        }
+
     }
 
     private fun initSourcesRecyclerView(items: List<NewsSourcesItem>) {
@@ -100,7 +184,8 @@ class Discover : ScopedFragment(), KodeinAware {
         }
         sources_recycler_view.apply {
 
-            layoutManager = LinearLayoutManager(this@Discover.context,LinearLayoutManager.HORIZONTAL,false)
+            layoutManager =
+                LinearLayoutManager(this@Discover.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = groupAdapter
 
         }
@@ -108,17 +193,17 @@ class Discover : ScopedFragment(), KodeinAware {
     }
 
 
-    private fun List<SourceX>.toNewsSourcesItem() : List<NewsSourcesItem>{
+    private fun List<SourceX>.toNewsSourcesItem(): List<NewsSourcesItem> {
         return this.map {
-            NewsSourcesItem(this@Discover.context!!,it,this@Discover)
+            NewsSourcesItem(this@Discover.context!!, it, this@Discover)
         }
     }
 
-    fun shareInfo(source: String){
+    fun shareInfo(source: String) {
         viewModel.selectedDomain(source)
     }
 
-    fun setNull(){
+    fun setNull() {
         viewModel.selectedItem(null)
     }
 }

@@ -13,5 +13,5 @@ interface NewsRepository {
 
     suspend fun getAllTheNews(): LiveData<List<Article>>
 
-    suspend fun generateSourcesList()
+    suspend fun getTopHeadlinesFromCategory(category: String): LiveData<List<Article>>
 }

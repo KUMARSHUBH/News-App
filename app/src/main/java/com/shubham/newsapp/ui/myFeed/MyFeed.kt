@@ -36,6 +36,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
     var source: String? = null
     var selectedItem: String? = null
+    var category: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,7 +97,6 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
                 if (selectedItem == "all_news") {
 
-                    viewModel
                     viewModel.fetchAllNews()
                     news = viewModel.allNews.await()
 
@@ -118,13 +118,25 @@ class MyFeed : ScopedFragment(), KodeinAware {
                 }
             } else {
 
-                news = viewModel.news.await()
+                if (category != null) {
+                    viewModel.fetchTopHeadlinesCategory()
 
-                news.observe(this@MyFeed, Observer {
-                    if (it == null) return@Observer
+                    news = viewModel.topNewsCategory.await()
 
-                    initViewPager(it)
-                })
+                    news.observe(this@MyFeed, Observer {
+                        if (it == null) return@Observer
+
+                        initViewPager(it)
+                    })
+                } else {
+                    news = viewModel.news.await()
+
+                    news.observe(this@MyFeed, Observer {
+                        if (it == null) return@Observer
+
+                        initViewPager(it)
+                    })
+                }
             }
 
         }
@@ -154,6 +166,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
         super.onResume()
         val domain = viewModel.returnDomain()
         selectedItem = viewModel.returnSelected()
+        category = viewModel.returnCategory()
 
         source = if (domain != null)
             getHostName(domain)

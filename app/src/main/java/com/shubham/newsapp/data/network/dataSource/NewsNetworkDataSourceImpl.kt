@@ -13,6 +13,19 @@ class NewsNetworkDataSourceImpl(
 
     NewsNetworkDataSource {
 
+
+    override suspend fun fetchTopHeadlinesCategory(country: String, category: String) {
+
+        try {
+            val fetchedNews = newsApiservice.getTopCategoryRelatedNews(country,category)
+                .await()
+            _downloadedNews.postValue(fetchedNews)
+
+        }catch (e: NoConnectivityException){
+            Log.e("Connectivity", "No internet connection", e)
+        }
+    }
+
     override suspend fun fetchEverything(domains: String) {
 
         try {

@@ -1,13 +1,11 @@
 package com.shubham.newsapp.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.shubham.newsapp.data.db.dao.NewsDao
 import com.shubham.newsapp.data.db.dao.NewsSourcesDao
 import com.shubham.newsapp.data.db.entity.Article
 import com.shubham.newsapp.data.network.dataSource.NewsNetworkDataSource
 import com.shubham.newsapp.data.network.response.NewsResponse
-import com.shubham.newsapp.internal.getHostName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -19,19 +17,16 @@ class NewsRepositoryImpl(
     private val newsSourcesDao: NewsSourcesDao
 ) : NewsRepository {
 
-    var sourcesList = mutableListOf<String>()
 
-    override suspend fun generateSourcesList() {
+    override suspend fun getTopHeadlinesFromCategory(category: String): LiveData<List<Article>> {
+        return withContext(Dispatchers.IO){
 
-        newsSourcesDao.getSourcesList().apply {
-
-            forEach {
-                sourcesList.add(getHostName(it.url))
-            }
-
+            getTopHeadlinesCategory(category)
+            return@withContext newsDao.getNews()
         }
-
     }
+
+
 
     override suspend fun getAllTheNews(): LiveData<List<Article>> {
         return withContext(Dispatchers.IO) {
@@ -107,8 +102,13 @@ class NewsRepositoryImpl(
 
     private suspend fun getAllNewsOnRequest() {
 
-        generateSourcesList()
-        Log.d("List of Sources", "$sourcesList")
-        newsNetworkDataSource.fetchNewsFromSource(listOf("abcnews.go.com, abc.net.au, aljazeera.com, arstechnica.com, apnews.com, afr.com, axios.com, bbc.co.uk, bbc.co.uk, bleacherreport.com, bloomberg.com, breitbart.com, businessinsider.com").joinToString())
+        newsNetworkDataSource.fetchNewsFromSource(listOf("abcnews.go.com, abc.net.au, aljazeera.com, " +
+                "arstechnica.com, apnews.com, afr.com, axios.com, bbc.co.uk," +
+                " bbc.co.uk, bleacherreport.com, bloomberg.com, breitbart.com, businessinsider.com").joinToString())
+    }
+
+    private suspend fun getTopHeadlinesCategory(category:String){
+
+        newsNetworkDataSource.fetchTopHeadlinesCategory("in",category)
     }
 }
