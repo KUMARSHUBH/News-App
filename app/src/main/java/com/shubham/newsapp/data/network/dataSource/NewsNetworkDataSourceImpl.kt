@@ -8,10 +8,24 @@ import com.shubham.newsapp.data.network.response.NewsResponse
 import com.shubham.newsapp.internal.NoConnectivityException
 
 class NewsNetworkDataSourceImpl(
+
     private val newsApiservice: NewsApiservice
 ) :
 
     NewsNetworkDataSource {
+
+
+    override suspend fun fetchSearchNews(keyword: String) {
+
+        try {
+            val fetchedNews = newsApiservice.getNewsSearch(keyword)
+                .await()
+            _downloadedNews.postValue(fetchedNews)
+
+        }catch (e: NoConnectivityException){
+            Log.e("Connectivity", "No internet connection", e)
+        }
+    }
 
 
     override suspend fun fetchTopHeadlinesCategory(country: String, category: String) {

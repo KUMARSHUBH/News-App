@@ -52,6 +52,14 @@ interface NewsApiservice {
         @Query("category") category: String
     ) : Deferred<NewsResponse>
 
+    @GET("everything")
+    fun getNewsSearch(
+        @Query("q") keyword: String,
+        @Query("language") language: String = "en",
+        @Query("sortBy") sortBy : String = "popularity"
+    ) : Deferred<NewsResponse>
+
+
     companion object{
         operator fun invoke(
             connectivityInterceptor: ConnectivityInterceptor

@@ -17,6 +17,14 @@ class NewsRepositoryImpl(
     private val newsSourcesDao: NewsSourcesDao
 ) : NewsRepository {
 
+    override suspend fun getNewsSearch(keyword: String): LiveData<List<Article>> {
+        return withContext(Dispatchers.IO){
+
+            getSearchNews(keyword)
+            return@withContext newsDao.getNews()
+        }
+    }
+
 
     override suspend fun getTopHeadlinesFromCategory(category: String): LiveData<List<Article>> {
         return withContext(Dispatchers.IO){
@@ -110,5 +118,10 @@ class NewsRepositoryImpl(
     private suspend fun getTopHeadlinesCategory(category:String){
 
         newsNetworkDataSource.fetchTopHeadlinesCategory("in",category)
+    }
+
+    private suspend fun getSearchNews(keyword: String){
+
+        newsNetworkDataSource.fetchSearchNews(keyword)
     }
 }

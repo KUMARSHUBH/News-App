@@ -2,6 +2,7 @@ package com.shubham.newsapp.ui.myFeed
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
     var source: String? = null
     var selectedItem: String? = null
     var category: String? = null
+    var searchView: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,9 +58,9 @@ class MyFeed : ScopedFragment(), KodeinAware {
         viewModel = activity?.let {
             ViewModelProviders.of(it, viewModelFactory).get(SharedViewModel::class.java)
         }!!
-        shimmer_layout.apply {
-            startShimmerAnimation()
-        }
+//        shimmer_layout.apply {
+//            startShimmerAnimation()
+//        }
 
         val img = (activity as? MainActivity)?.refresh_image_view
         img?.setOnClickListener {
@@ -75,6 +77,11 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
     private fun bindUI() = launch(Dispatchers.Main) {
 
+        shimmer_layout.apply {
+            visibility = View.VISIBLE
+            startShimmerAnimation()
+        }
+
         val news: LiveData<List<Article>>
 
         if (source != null) {
@@ -87,12 +94,17 @@ class MyFeed : ScopedFragment(), KodeinAware {
                 }
 
                 if (it.isEmpty())
-                    Toast.makeText(this@MyFeed.context, "Error", Toast.LENGTH_SHORT).show()
+                    Log.e("ERROR", "THIs IS ERROR")
+                //Toast.makeText(this@MyFeed.context, "Error", Toast.LENGTH_SHORT).show()
+
                 else
                     initViewPager(it)
             })
 
-        } else {
+        }
+
+        else {
+
             if (selectedItem != null) {
 
                 if (selectedItem == "all_news") {
@@ -116,9 +128,12 @@ class MyFeed : ScopedFragment(), KodeinAware {
                     })
 
                 }
-            } else {
+            }
+
+            else {
 
                 if (category != null) {
+
                     viewModel.fetchTopHeadlinesCategory()
 
                     news = viewModel.topNewsCategory.await()
@@ -128,14 +143,34 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
                         initViewPager(it)
                     })
-                } else {
-                    news = viewModel.news.await()
+                }
 
-                    news.observe(this@MyFeed, Observer {
-                        if (it == null) return@Observer
 
-                        initViewPager(it)
-                    })
+                else {
+
+                    if (searchView != null){
+
+                        viewModel.fetchNews()
+
+                        news = viewModel.newsSearch.await()
+
+                        news.observe(this@MyFeed, Observer {
+                            if (it == null) return@Observer
+
+                            initViewPager(it)
+                        })
+                    }
+
+                    else{
+
+                        news = viewModel.news.await()
+
+                        news.observe(this@MyFeed, Observer {
+                            if (it == null) return@Observer
+
+                            initViewPager(it)
+                        })
+                    }
                 }
             }
 
@@ -146,19 +181,12 @@ class MyFeed : ScopedFragment(), KodeinAware {
     private fun initViewPager(it: List<Article>) {
 
         shimmer_layout.stopShimmerAnimation()
-        shimmer_layout.visibility = View.GONE
+        shimmer_layout.visibility = View.INVISIBLE
         view_pager.adapter = ViewPagerAdapter(this@MyFeed.context, it, this)
         view_pager.setPageTransformer(true, ViewPageTransformer())
 
-        Toast.makeText(this.context, "Feed updated", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this.context, "Feed updated", Toast.LENGTH_SHORT).show()
 
-    }
-
-
-    override fun onStop() {
-
-        shimmer_layout.stopShimmerAnimation()
-        super.onStop()
     }
 
     override fun onResume() {
@@ -167,16 +195,17 @@ class MyFeed : ScopedFragment(), KodeinAware {
         val domain = viewModel.returnDomain()
         selectedItem = viewModel.returnSelected()
         category = viewModel.returnCategory()
+        searchView = viewModel.returnKeyword()
 
         source = if (domain != null)
             getHostName(domain)
         else
             null
 
-        shimmer_layout.apply {
-            visibility = View.VISIBLE
-            startShimmerAnimation()
-        }
+//        shimmer_layout.apply {
+//            visibility = View.VISIBLE
+//            startShimmerAnimation()
+//        }
 
         bindUI()
 

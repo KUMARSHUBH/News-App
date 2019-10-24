@@ -22,11 +22,13 @@ class SharedViewModel(
     private var domain: String? = null
     private var selected: String? = null
     private var category: String? = null
+    private var keyword: String? = null
 
     lateinit var newsFromSources: Deferred<LiveData<List<Article>>>
     lateinit var topNews: Deferred<LiveData<List<Article>>>
     lateinit var allNews: Deferred<LiveData<List<Article>>>
     lateinit var topNewsCategory: Deferred<LiveData<List<Article>>>
+    lateinit var newsSearch: Deferred<LiveData<List<Article>>>
 
 
     fun selectedDomain(value: String?) {
@@ -38,6 +40,17 @@ class SharedViewModel(
             null
         else
             selected
+    }
+
+    fun selectedKeyword(value: String?) {
+        keyword = value
+    }
+    fun returnKeyword(): String? {
+
+        return if (keyword == null)
+            null
+        else
+            keyword
     }
     fun selectedItem(value: String?) {
 
@@ -103,5 +116,13 @@ class SharedViewModel(
         }
     }
 
+
+    fun fetchNews(){
+
+        newsSearch = GlobalScope.async {
+
+            newsRepository.getNewsSearch(keyword!!)
+        }
+    }
 }
 

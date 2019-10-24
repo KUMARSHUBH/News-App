@@ -40,6 +40,10 @@ class FragmentStatePagerItemAdapter(fm: FragmentManager, private val pages: Frag
         return getPagerItem(position).title
     }
 
+    fun changePageTitle(title: CharSequence){
+        getPagerItem(1).title
+    }
+
     override fun getPageWidth(position: Int): Float {
         return getPagerItem(position).width
     }

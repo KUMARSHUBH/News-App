@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -175,6 +176,33 @@ class Discover : ScopedFragment(), KodeinAware {
             vp.viewPager.currentItem = vp.currentItem + 1
         }
 
+        searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                if(query.length > 2){
+
+                    viewModel.selectedDomain(null)
+                    viewModel.selectedItem(null)
+
+                    viewModel.selectedKeyword(query)
+
+                    val vp = (activity as MainActivity).viewPager
+                    vp.viewPager.currentItem = vp.currentItem + 1
+                }
+
+                else{
+                    Toast.makeText(this@Discover.context,"Minimum 3 characters required",Toast.LENGTH_SHORT).show()
+                }
+
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+             return false
+            }
+
+        })
     }
 
     private fun initSourcesRecyclerView(items: List<NewsSourcesItem>) {
