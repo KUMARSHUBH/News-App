@@ -177,6 +177,7 @@ class Discover : ScopedFragment(), KodeinAware {
         }
 
         searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+
             override fun onQueryTextSubmit(query: String): Boolean {
 
                 if(query.length > 2){

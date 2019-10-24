@@ -4,19 +4,19 @@
     <PreferenceCategory>
 
         <SwitchPreferenceCompat
+            android:defaultValue="true"
             android:icon="@drawable/ic_notifications_none_black_24dp"
             android:key="NOTIFICATIONS"
-            android:title="Notifications"
-            android:defaultValue="true" />
+            android:title="Notifications" />
     </PreferenceCategory>
 
     <PreferenceCategory>
         <SwitchPreferenceCompat
-            android:key="NIGHT_MODE"
-            android:title="Night Mode"
-            android:summary="For better readability at night"
             android:defaultValue="false"
-            android:icon="@drawable/ic_night_mode" />
+            android:icon="@drawable/ic_night_mode"
+            android:key="NIGHT_MODE"
+            android:summary="For better readability at night"
+            android:title="Night Mode" />
 
     </PreferenceCategory>
 
@@ -24,7 +24,17 @@
 
         <Preference
             android:key="SHARE"
-            android:title="Share this app" />
+            android:title="Share this app">
+
+            <intent
+                android:action="android.intent.action.SEND"
+                android:mimeType="text/plain">
+                <extra
+                    android:name = "android.intent.extra.TEXT"
+                    android:value= "Download News App and enjoy!!!"/>
+            </intent>
+
+        </Preference>
 
         <Preference
             android:key="RATE"
@@ -32,15 +42,38 @@
 
         <Preference
             android:key="FEEDBACK"
-            android:title="Feedback" />
+            android:title="Feedback">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="mailto:ks92217@gmail.address">
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
+                    android:value="Feedback" />
+                <extra
+                    android:name="android.intent.extra.TEXT"
+                    android:value="Text of Feedback" />
+            </intent>
+
+        </Preference>
 
         <Preference
             android:key="T_C"
-            android:title="Terms and conditions" />
+            android:title="Terms and conditions">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.inshorts.com/android/tnc" />
+        </Preference>
 
         <Preference
             android:key="PRIVACY"
-            android:title="Privacy" />
+            android:title="Privacy">
 
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.inshorts.com/android/privacy" />
+
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -15,16 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
-            android:screenOrientation="locked"
             android:name=".ui.WebViewActivity"
-            android:theme="@style/AppTheme"/>
-
-        <activity android:name=".ui.SettingsActivity" />
-
-        <activity
             android:screenOrientation="locked"
-            android:name=".ui.MainActivity">
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.SettingsActivity" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
