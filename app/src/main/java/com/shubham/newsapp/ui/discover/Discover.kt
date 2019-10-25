@@ -31,7 +31,7 @@ class Discover : ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
     private val viewModelFactory: SharedViewModelFactory by instance()
 
-    private lateinit var viewModel: SharedViewModel
+     lateinit var viewModel: SharedViewModel
 
 
     override fun onCreateView(

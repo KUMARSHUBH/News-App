@@ -28,7 +28,7 @@ class NewsSourcesItem(
 
                 (fragment as Discover).setNull()
                 fragment.shareInfo(sources.url)
-
+                fragment.viewModel.returnFromWebView = false
 
                 val vp = (fragment.activity as MainActivity).viewPager
 
