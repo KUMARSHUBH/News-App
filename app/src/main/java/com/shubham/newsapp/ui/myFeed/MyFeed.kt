@@ -33,12 +33,13 @@ class MyFeed : ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
     private val viewModelFactory: SharedViewModelFactory by instance()
 
-    private lateinit var viewModel: SharedViewModel
+    lateinit var viewModel: SharedViewModel
 
     var source: String? = null
     var selectedItem: String? = null
     var category: String? = null
     var searchView: String? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -125,6 +126,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
                         if (it == null) return@Observer
 
                         initViewPager(it)
+
                     })
 
                 }
@@ -183,10 +185,16 @@ class MyFeed : ScopedFragment(), KodeinAware {
         shimmer_layout.stopShimmerAnimation()
         shimmer_layout.visibility = View.INVISIBLE
         view_pager.adapter = ViewPagerAdapter(this@MyFeed.context, it, this)
+
         view_pager.setPageTransformer(true, ViewPageTransformer())
 
 //        Toast.makeText(this.context, "Feed updated", Toast.LENGTH_SHORT).show()
 
+    }
+
+    override fun onPause() {
+        viewModel.returnFromWebView = true
+        super.onPause()
     }
 
     override fun onResume() {
@@ -197,17 +205,15 @@ class MyFeed : ScopedFragment(), KodeinAware {
         category = viewModel.returnCategory()
         searchView = viewModel.returnKeyword()
 
+
         source = if (domain != null)
             getHostName(domain)
         else
             null
 
-//        shimmer_layout.apply {
-//            visibility = View.VISIBLE
-//            startShimmerAnimation()
-//        }
 
-        bindUI()
+        if(!viewModel.returnFromWebView)
+            bindUI()
 
         if (source != null)
             Toast.makeText(this@MyFeed.context, "$source", Toast.LENGTH_SHORT).show()

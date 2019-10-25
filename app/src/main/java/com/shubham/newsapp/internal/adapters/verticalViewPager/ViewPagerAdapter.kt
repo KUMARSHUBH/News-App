@@ -15,6 +15,7 @@ import com.shubham.newsapp.internal.BlurBuilder
 import com.shubham.newsapp.internal.ScopedFragment
 import com.shubham.newsapp.ui.MainActivity
 import com.shubham.newsapp.ui.WebViewActivity
+import com.shubham.newsapp.ui.myFeed.MyFeed
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,6 +34,7 @@ class ViewPagerAdapter(
     val constraint_layout = (fragment.activity as MainActivity).root_layout
     val action_bar = (fragment.activity as MainActivity).supportActionBar
     private var CONSTRAINT_STATE = 0
+
 
     override fun isViewFromObject(view: View, objeect: Any): Boolean {
 
@@ -103,6 +105,8 @@ class ViewPagerAdapter(
 
 
         itemView.author.setOnClickListener {
+
+            (fragment as MyFeed).viewModel.returnFromWebView = true
             val intent = Intent(context, WebViewActivity::class.java)
             intent.putExtra("SOURCE_URL", news[position].url)
             context?.startActivity(intent)

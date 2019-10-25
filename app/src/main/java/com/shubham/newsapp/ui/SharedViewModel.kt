@@ -23,6 +23,8 @@ class SharedViewModel(
     private var selected: String? = null
     private var category: String? = null
     private var keyword: String? = null
+    var returnFromWebView: Boolean = false
+
 
     lateinit var newsFromSources: Deferred<LiveData<List<Article>>>
     lateinit var topNews: Deferred<LiveData<List<Article>>>

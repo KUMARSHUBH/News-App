@@ -72,6 +72,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
         top_stories.setOnClickListener {
 
+            viewModel.returnFromWebView = false
             viewModel.selectedDomain(null)
             viewModel.selectedItem(null)
 
@@ -86,6 +87,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
         all_news.setOnClickListener {
 
+            viewModel.returnFromWebView = false
             viewModel.selectedDomain(null)
             viewModel.selectedItem(null)
 
@@ -106,6 +108,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
         business.setOnClickListener {
 
+            viewModel.returnFromWebView = false
             viewModel.selectedDomain(null)
             viewModel.selectedItem(null)
 
@@ -118,6 +121,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
         sports.setOnClickListener {
 
+            viewModel.returnFromWebView = false
             viewModel.selectedDomain(null)
             viewModel.selectedItem(null)
 
@@ -130,6 +134,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
         entertainment.setOnClickListener {
 
+            viewModel.returnFromWebView = false
             viewModel.selectedDomain(null)
             viewModel.selectedItem(null)
 
@@ -142,6 +147,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
         general.setOnClickListener {
 
+            viewModel.returnFromWebView = false
             viewModel.selectedDomain(null)
             viewModel.selectedItem(null)
 
@@ -154,6 +160,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
         health.setOnClickListener {
 
+            viewModel.returnFromWebView = false
             viewModel.selectedDomain(null)
             viewModel.selectedItem(null)
 
@@ -166,6 +173,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
         science.setOnClickListener {
 
+            viewModel.returnFromWebView = false
             viewModel.selectedDomain(null)
             viewModel.selectedItem(null)
 
@@ -182,6 +190,7 @@ class Discover : ScopedFragment(), KodeinAware {
 
                 if(query.length > 2){
 
+                    viewModel.returnFromWebView = false
                     viewModel.selectedDomain(null)
                     viewModel.selectedItem(null)
 
