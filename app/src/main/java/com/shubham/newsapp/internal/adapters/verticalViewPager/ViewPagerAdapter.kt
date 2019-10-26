@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.LinearLayout
 import androidx.viewpager.widget.PagerAdapter
+import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
 import com.shubham.newsapp.internal.BlurBuilder
 import com.shubham.newsapp.internal.ScopedFragment
@@ -51,6 +52,7 @@ class ViewPagerAdapter(
         val itemView =
             mLayoutInflater.inflate(com.shubham.newsapp.R.layout.news_item_layout, container, false)
 
+
         itemView.heading_textView.text = news[position].title
         itemView.description_text_view.text = news[position].description
         (fragment as MyFeed).link = news[position].url
@@ -64,6 +66,7 @@ class ViewPagerAdapter(
         itemView.author.text = "Tap for details ... "
 
         Picasso.get().load(news[position].urlToImage)
+            .placeholder(R.drawable.placeholder)
             .into(itemView.news_image_view, object : Callback {
 
                 override fun onSuccess() {

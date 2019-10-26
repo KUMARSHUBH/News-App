@@ -58,19 +58,19 @@ class VerticalViewPager @JvmOverloads constructor(context: Context, attrs: Attri
         override fun transformPage(view: View, position: Float) {
             val pageWidth = view.width
             val pageHeight = view.height
-            if (position < -1) {
-                // This page is way off-screen to the left.
-                view.alpha = 0f
-            } else if (position <= 1) {
-                view.alpha = 1f
-                // Counteract the default slide transition
-                view.translationX = pageWidth * -position
-                // set Y position to swipe in from top
-                val yPosition = position * pageHeight
-                view.translationY = yPosition
-            } else {
-                // This page is way off-screen to the right.
-                view.alpha = 0f
+            when {
+                position < -1 -> // This page is way off-screen to the left.
+                    view.alpha = 0f
+                position <= 1 -> {
+                    view.alpha = 1f
+                    // Counteract the default slide transition
+                    view.translationX = pageWidth * -position
+                    // set Y position to swipe in from top
+                    val yPosition = position * pageHeight
+                    view.translationY = yPosition
+                }
+                else -> // This page is way off-screen to the right.
+                    view.alpha = 0f
             }
         }
     }
