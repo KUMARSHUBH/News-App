@@ -32,6 +32,7 @@ class ViewPagerAdapter(
         context?.applicationContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     val constraint_layout = (fragment.activity as MainActivity).root_layout
+    val bottom_app_bar = (fragment.activity as MainActivity).bottom_app_bar
     val action_bar = (fragment.activity as MainActivity).supportActionBar
     private var CONSTRAINT_STATE = 0
 
@@ -85,9 +86,12 @@ class ViewPagerAdapter(
                 constraint_layout.animate().translationY(-constraint_layout.bottom.toFloat())
                     .setInterpolator(AccelerateInterpolator()).start()
 
+                bottom_app_bar.animate().translationY(bottom_app_bar.bottom.toFloat())
+                    .setInterpolator(AccelerateInterpolator()).start()
+
                 CONSTRAINT_STATE = 0
 
-//                constraint_layout.visibility = View.INVISIBLE
+
             }
 
 
@@ -96,7 +100,11 @@ class ViewPagerAdapter(
                 constraint_layout.animate().translationY(constraint_layout.top.toFloat())
                    .setInterpolator(AccelerateInterpolator()).start()
 
-//                constraint_layout.visibility = View.VISIBLE
+
+                bottom_app_bar.animate().translationY(-bottom_app_bar.top.toFloat())
+                    .setInterpolator(AccelerateInterpolator()).start()
+
+
                 CONSTRAINT_STATE = 1
             }
 

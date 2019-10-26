@@ -2,6 +2,7 @@ package com.shubham.newsapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.animation.AccelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        setSupportActionBar(bottom_app_bar)
         val fragPagerItems = FragmentPagerItems.with(this)
             .add(R.string.discover, Discover::class.java)
             .add(R.string.myFeed, MyFeed::class.java)
@@ -56,11 +58,22 @@ class MainActivity : AppCompatActivity() {
                     root_layout.animate().translationY(root_layout.top.toFloat())
                         .setInterpolator(AccelerateInterpolator()).start()
 
+
+//                    bottom_app_bar.animate().translationY(-bottom_app_bar.top.toFloat())
+//                        .setInterpolator(AccelerateInterpolator()).start()
+
+                    bottom_app_bar.visibility = View.GONE
+
                 }
 
                 else{
 
                     root_layout.animate().translationY(-root_layout.bottom.toFloat())
+                        .setInterpolator(AccelerateInterpolator()).start()
+
+                    bottom_app_bar.visibility = View.VISIBLE
+
+                    bottom_app_bar.animate().translationY(bottom_app_bar.bottom.toFloat())
                         .setInterpolator(AccelerateInterpolator()).start()
                 }
 
@@ -77,9 +90,6 @@ class MainActivity : AppCompatActivity() {
 
         })
     }
-
-
-
 
     override fun onResume() {
         adapter.notifyDataSetChanged()
