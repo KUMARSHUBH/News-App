@@ -53,8 +53,12 @@ class ViewPagerAdapter(
 
         itemView.heading_textView.text = news[position].title
         itemView.description_text_view.text = news[position].description
+        (fragment as MyFeed).link = news[position].url
 
         constraint_layout.animate().translationY(-constraint_layout.bottom.toFloat())
+            .setInterpolator(AccelerateInterpolator()).start()
+
+        bottom_app_bar.animate().translationY(bottom_app_bar.bottom.toFloat())
             .setInterpolator(AccelerateInterpolator()).start()
 
         itemView.author.text = "Tap for details ... "
@@ -114,7 +118,7 @@ class ViewPagerAdapter(
 
         itemView.author.setOnClickListener {
 
-            (fragment as MyFeed).viewModel.returnFromWebView = true
+            fragment.viewModel.returnFromWebView = true
             val intent = Intent(context, WebViewActivity::class.java)
             intent.putExtra("SOURCE_URL", news[position].url)
             context?.startActivity(intent)

@@ -1,5 +1,6 @@
 package com.shubham.newsapp.ui.myFeed
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -28,6 +29,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
+
 class MyFeed : ScopedFragment(), KodeinAware {
 
     override val kodein by closestKodein()
@@ -35,6 +37,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
     lateinit var viewModel: SharedViewModel
 
+    var link: String? = null
     var source: String? = null
     var selectedItem: String? = null
     var category: String? = null
@@ -74,6 +77,22 @@ class MyFeed : ScopedFragment(), KodeinAware {
             bindUI()
         }
 
+        val share = (activity as MainActivity).share.setOnClickListener {
+
+            shareNews()
+        }
+    }
+
+    private fun shareNews() {
+
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            "Check out this news article\n\n$link"
+        )
+        shareIntent.type = "text/plain"
+        startActivity(Intent.createChooser(shareIntent, "Share this article with..."))
     }
 
     private fun bindUI() = launch(Dispatchers.Main) {
