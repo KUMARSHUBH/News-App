@@ -55,7 +55,10 @@ class ViewPagerAdapter(
 
         itemView.heading_textView.text = news[position].title
         itemView.description_text_view.text = news[position].description
-        (fragment as MyFeed).link = news[position].url
+
+        if(position!=0)
+            (fragment as MyFeed).link = news[position-1].url
+        else (fragment as MyFeed).link = news[0].url
 
         constraint_layout.animate().translationY(-constraint_layout.bottom.toFloat())
             .setInterpolator(AccelerateInterpolator()).start()
