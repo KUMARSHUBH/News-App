@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
+import com.shubham.newsapp.NewsApplication
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
 import com.shubham.newsapp.internal.ScopedFragment
@@ -213,6 +214,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
     override fun onPause() {
         viewModel.returnFromWebView = true
+        (this@MyFeed.activity?.application as NewsApplication).preferencesChanged = false
         super.onPause()
     }
 
@@ -233,7 +235,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
 
 //        bindUI()
-        if(!viewModel.returnFromWebView)
+        if(!viewModel.returnFromWebView || (this@MyFeed.activity?.application as NewsApplication).preferencesChanged)
             bindUI()
 
         if (source != null)
