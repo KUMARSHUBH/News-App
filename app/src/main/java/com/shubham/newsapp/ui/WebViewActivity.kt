@@ -23,7 +23,7 @@ class WebViewActivity : AppCompatActivity() {
         ab?.setDisplayHomeAsUpEnabled(true)
         ab?.setDisplayShowCustomEnabled(true) // enable overriding the default toolbar layout
         ab?.setDisplayShowTitleEnabled(false)
-        ab?.setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_white_24dp)
+        ab?.setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_24dp)
         val url = intent.getStringExtra("SOURCE_URL")
         url_source.text = getHostName(url)
         initWebView(url)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
 
@@ -11,12 +12,15 @@
     </PreferenceCategory>
 
     <PreferenceCategory>
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
+        <ListPreference
+            app:key="@string/theme_pref_key"
+            app:title="Choose theme"
             android:icon="@drawable/ic_night_mode"
-            android:key="NIGHT_MODE"
-            android:summary="For better readability at night"
-            android:title="Night Mode" />
+            app:defaultValue="default"
+            app:dialogTitle="Choose theme"
+            app:entries="@array/theme_list_array"
+            app:entryValues="@array/theme_entry_array"
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 

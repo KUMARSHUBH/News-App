@@ -98,15 +98,15 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun showSettings(){
-        settings_image_view.setImageResource(R.drawable.ic_settings_blue_24dp)
-        refresh_image_view.setImageResource(R.drawable.ic_keyboard_arrow_right_black_24dp)
+        settings_image_view.setImageResource(R.drawable.ic_settings_24dp)
+        refresh_image_view.setImageResource(R.drawable.ic_keyboard_arrow_right_24dp)
 
     }
 
 
     private fun showRefresh(){
-        settings_image_view.setImageResource(R.drawable.ic_keyboard_arrow_left_black_24dp)
-        refresh_image_view.setImageResource(R.drawable.ic_refresh_blue_24dp)
+        settings_image_view.setImageResource(R.drawable.ic_keyboard_arrow_left_24dp)
+        refresh_image_view.setImageResource(R.drawable.ic_refresh_24dp)
     }
 
 }

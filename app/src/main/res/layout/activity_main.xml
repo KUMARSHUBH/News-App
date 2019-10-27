@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary">
 
 
     <androidx.viewpager.widget.ViewPager
@@ -12,27 +13,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="0dp"
-        android:background="@android:color/white"
+        android:background="?attr/colorPrimary"
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.MainActivity"
+        android:background="?attr/colorPrimary">
 
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
             android:minHeight="?attr/actionBarSize"
             android:padding="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="?attr/colorPrimary">
 
             <com.ogaclejapan.smarttablayout.SmartTabLayout
                 android:id="@+id/viewpagertab"
@@ -40,10 +41,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="4dp"
                 app:stl_clickable="true"
-                app:stl_defaultTabBackground="@android:color/transparent"
                 app:stl_defaultTabTextAllCaps="false"
-                app:stl_defaultTabTextColor="#FC000000"
+                app:stl_defaultTabTextColor="?colorAccent"
                 app:stl_defaultTabTextHorizontalPadding="32dp"
+                app:stl_underlineColor = "?attr/colorPrimary"
                 app:stl_defaultTabTextMinWidth="4dp"
                 app:stl_defaultTabTextSize="15sp"
                 app:stl_distributeEvenly="false"
@@ -58,8 +59,7 @@
                 app:stl_indicatorThickness="4dp"
                 app:stl_indicatorWidth="32dp"
                 app:stl_indicatorWithoutPadding="false"
-                app:stl_titleOffset="auto_center"
-                app:stl_underlineColor="@android:color/white" />
+                app:stl_titleOffset="auto_center" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -72,16 +72,16 @@
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
+            app:srcCompat="?attr/leftArrow" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/refresh_image_view"
             android:layout_width="24dp"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginEnd="28dp"
-            android:background="@android:color/white"
-            android:src="@drawable/ic_refresh_blue_24dp"
+            android:src="?attr/refresh"
             android:visibility="visible"
+            android:background="?attr/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/toolbar"
             app:layout_constraintTop_toTopOf="parent" />
@@ -100,14 +100,15 @@
             android:id="@+id/bottom_app_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="bottom">
+            android:layout_gravity="bottom"
+            android:background="?attr/colorPrimary">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="14dp"
                 android:paddingEnd="14dp"
-                android:background="@android:color/transparent">
+                android:background="?attr/colorPrimary">
 
                 <ImageView
                     android:id="@+id/share"

@@ -8,13 +8,15 @@
     app:cardElevation="0dp"
     android:layout_margin="4dp"
     android:id="@+id/cardView"
+    android:background="?attr/colorPrimary"
     >
 
     <LinearLayout
         android:paddingTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="?attr/colorPrimary">
 
 
         <ImageView
@@ -22,6 +24,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
+            android:background="?attr/colorPrimary"
             android:src="@drawable/source"
             />
 
@@ -32,7 +35,8 @@
             android:layout_height="match_parent"
             android:text="ABC NEWS"
             android:gravity="center"
-            android:textColor="@android:color/black"
+            android:background="?attr/colorPrimary"
+            android:textColor="?attr/colorAccent"
             android:layout_gravity="center"
             android:textStyle="italic|bold"
             android:padding="4dp"

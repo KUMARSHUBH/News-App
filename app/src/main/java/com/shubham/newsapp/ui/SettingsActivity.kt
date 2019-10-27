@@ -11,7 +11,6 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        setTheme(R.style.AppTheme_Settings)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Settings"
         supportActionBar?.setDisplayShowHomeEnabled(true)

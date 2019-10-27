@@ -1,11 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="refresh">@drawable/ic_refresh_24dp</item>
+        <item name="settings">@drawable/ic_settings_24dp</item>
+        <item name="leftArrow">@drawable/ic_keyboard_arrow_left_24dp</item>
+        <item name="rightArrow">@drawable/ic_keyboard_arrow_right_24dp</item>
+
     </style>
 
     <style name="AppTheme.Launcher">

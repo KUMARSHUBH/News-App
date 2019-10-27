@@ -1,6 +1,7 @@
 package com.shubham.newsapp
 
 import android.app.Application
+import androidx.preference.PreferenceManager
 import com.shubham.newsapp.data.db.NewsDatabase
 import com.shubham.newsapp.data.network.NewsApiservice
 import com.shubham.newsapp.data.network.dataSource.NewsNetworkDataSource
@@ -16,6 +17,7 @@ import com.shubham.newsapp.data.repository.NewsSourceRepositoryImpl
 import com.shubham.newsapp.ui.SharedViewModelFactory
 import com.shubham.newsapp.ui.discover.DicoverViewModelFactory
 import com.shubham.newsapp.ui.myFeed.MyFeedViewModelFactory
+import example.com.darkthemeplayground.settings.ThemeHelper
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -57,5 +59,13 @@ class NewsApplication : Application(), KodeinAware {
         bind() from provider { MyFeedViewModelFactory(instance()) }
         bind() from provider { DicoverViewModelFactory(instance()) }
         bind() from provider { SharedViewModelFactory(instance(),instance()) }
+    }
+
+
+    override fun onCreate() {
+        super.onCreate()
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val themePref = prefs.getString(getString(R.string.theme_pref_key), ThemeHelper.DEFAULT_MODE)
+        ThemeHelper.applyTheme(themePref!!)
     }
 }

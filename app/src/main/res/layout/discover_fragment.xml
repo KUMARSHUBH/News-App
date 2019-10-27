@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:layout_height="match_parent">
 
     <SearchView
         android:id="@+id/searchView"
@@ -18,7 +18,7 @@
         android:queryHint="Search latest news ..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/border"
@@ -37,6 +37,7 @@
         android:layout_height="0dp"
         android:animateLayoutChanges="true"
         android:fillViewport="true"
+        android:background="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/border">
 
@@ -53,6 +54,8 @@
                 android:text="SOURCES"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:background="?attr/colorPrimary"
+                android:textColor="?attr/colorAccent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -75,7 +78,9 @@
                 android:text="CATEGORIES"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/sources_recycler_view" />
+                app:layout_constraintTop_toBottomOf="@id/sources_recycler_view"
+                android:background="?attr/colorPrimary"
+                android:textColor="?attr/colorAccent"/>
 
 
             <HorizontalScrollView
@@ -83,7 +88,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
-                android:background="@android:color/white"
                 android:fillViewport="true"
                 android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -94,41 +98,40 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
                     android:padding="16dp">
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/all_news"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="@android:color/white"
                         app:cardCornerRadius="4dp"
                         app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:strokeColor="@android:color/white"
+                        app:strokeColor="?attr/colorPrimary"
+                        android:background="?attr/colorPrimary"
                         app:strokeWidth="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@android:color/white"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="?attr/colorPrimary">
 
 
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center"
-                                android:background="@android:color/white"
-                                android:src="@drawable/all_news" />
+                                android:src="@drawable/all_news"
+                                android:background="?attr/colorPrimary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:background="@android:color/white"
+                                android:textColor="?attr/colorAccent"
                                 android:gravity="center"
                                 android:text="ALL NEWS"
                                 android:textStyle="bold" />
@@ -142,35 +145,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="32dp"
-                        android:background="@android:color/white"
                         app:cardCornerRadius="4dp"
                         app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/all_news"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:strokeColor="@android:color/white"
+                        app:strokeColor="?attr/colorPrimary"
+                        android:background="?attr/colorPrimary"
                         app:strokeWidth="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@android:color/white"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="?attr/colorPrimary">
 
 
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center"
-                                android:background="@android:color/white"
-                                android:src="@drawable/top_sories" />
+                                android:src="@drawable/top_sories"
+                                android:background="?attr/colorPrimary"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:background="@android:color/white"
                                 android:gravity="center"
+                                android:textColor="?attr/colorAccent"
                                 android:text="TOP STORIES"
                                 android:textStyle="bold" />
 
@@ -183,34 +186,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="32dp"
-                        android:background="@android:color/transparent"
-                        app:cardBackgroundColor="@android:color/white"
+                        android:background="?attr/colorPrimary"
                         app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/top_stories"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:strokeColor="@android:color/white"
+                        app:strokeColor="?attr/colorPrimary"
                         app:strokeWidth="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@android:color/white"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="?attr/colorPrimary">
 
 
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center"
-                                android:background="@android:color/white"
-                                android:src="@drawable/bokmarks" />
+                                android:src="@drawable/bokmarks"
+                                android:background="?attr/colorPrimary"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:background="@android:color/white"
+                                android:textColor="?attr/colorAccent"
                                 android:gravity="center"
                                 android:text="BOOKMARKS"
                                 android:textStyle="bold" />
@@ -234,6 +236,8 @@
                 android:text="SUGGESTED TOPICS"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:background="?attr/colorPrimary"
+                android:textColor="?attr/colorAccent"
                 app:layout_constraintTop_toBottomOf="@id/categories_scroll_view" />
 
             <com.google.android.material.card.MaterialCardView
@@ -243,7 +247,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
                 android:padding="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="14dp"
@@ -270,7 +273,8 @@
                         android:layout_marginBottom="8dp"
                         android:paddingStart="4dp"
                         android:text="Business"
-                        android:textColor="@android:color/black"
+                        android:background="?attr/colorPrimary"
+                        android:textColor="?attr/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -283,7 +287,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 android:layout_marginEnd="8dp"
-                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
                 android:padding="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="14dp"
@@ -310,7 +313,8 @@
                         android:layout_marginBottom="8dp"
                         android:paddingStart="4dp"
                         android:text="Sports"
-                        android:textColor="@android:color/black"
+                        android:background="?attr/colorPrimary"
+                        android:textColor="?attr/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -322,7 +326,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 android:layout_marginStart="8dp"
-                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
                 android:padding="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="14dp"
@@ -349,7 +352,8 @@
                         android:layout_marginBottom="8dp"
                         android:paddingStart="4dp"
                         android:text="Entertainment"
-                        android:textColor="@android:color/black"
+                        android:background="?attr/colorPrimary"
+                        android:textColor="?attr/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -361,7 +365,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 android:layout_marginEnd="8dp"
-                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
                 android:padding="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="14dp"
@@ -388,7 +391,8 @@
                         android:layout_marginBottom="8dp"
                         android:paddingStart="4dp"
                         android:text="General"
-                        android:textColor="@android:color/black"
+                        android:background="?attr/colorPrimary"
+                        android:textColor="?attr/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -400,7 +404,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 android:layout_marginStart="8dp"
-                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
                 android:padding="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="14dp"
@@ -427,7 +430,8 @@
                         android:layout_marginBottom="8dp"
                         android:paddingStart="4dp"
                         android:text="Health"
-                        android:textColor="@android:color/black"
+                        android:background="?attr/colorPrimary"
+                        android:textColor="?attr/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -439,8 +443,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 android:layout_marginEnd="8dp"
-                android:outlineAmbientShadowColor="@android:color/holo_blue_dark"
-                android:outlineSpotShadowColor="#00bfff"
                 android:padding="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="14dp"
@@ -467,7 +469,8 @@
                         android:layout_marginBottom="8dp"
                         android:paddingStart="4dp"
                         android:text="Science"
-                        android:textColor="@android:color/black"
+                        android:background="?attr/colorPrimary"
+                        android:textColor="?attr/colorAccent"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
