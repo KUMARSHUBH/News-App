@@ -26,6 +26,8 @@ import org.kodein.di.generic.singleton
 
 class NewsApplication : Application(), KodeinAware {
 
+    var preferencesChanged: Boolean = false
+
     override val kodein: Kodein = Kodein.lazy {
         import(androidXModule(this@NewsApplication))
 

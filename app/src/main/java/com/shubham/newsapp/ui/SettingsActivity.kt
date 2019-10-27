@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.shubham.newsapp.R
 import kotlinx.android.synthetic.main.activity_settings.*
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

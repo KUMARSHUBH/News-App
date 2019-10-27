@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.shubham.newsapp.NewsApplication
 import com.shubham.newsapp.R
 import example.com.darkthemeplayground.settings.ThemeHelper
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -49,8 +50,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         themePreference.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { _, newValue ->
                 ThemeHelper.applyTheme(newValue as String)
-
-
+                (this@SettingsFragment.activity?.application as NewsApplication).preferencesChanged = true
                 true
             }
     }
