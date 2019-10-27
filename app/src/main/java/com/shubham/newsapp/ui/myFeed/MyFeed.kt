@@ -71,10 +71,10 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
             val anim = AnimationUtils.loadAnimation(this.context, R.anim.rotate)
             it.startAnimation(anim)
-            shimmer_layout.visibility = View.VISIBLE
-            shimmer_layout.startShimmerAnimation()
+//            shimmer_layout.visibility = View.VISIBLE
+//            shimmer_layout.startShimmerAnimation()
 
-            bindUI()
+//            bindUI()
         }
 
         val share = (activity as MainActivity).share.setOnClickListener {
@@ -219,6 +219,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
     override fun onResume() {
 
         super.onResume()
+
         val domain = viewModel.returnDomain()
         selectedItem = viewModel.returnSelected()
         category = viewModel.returnCategory()
@@ -231,6 +232,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
             null
 
 
+//        bindUI()
         if(!viewModel.returnFromWebView)
             bindUI()
 

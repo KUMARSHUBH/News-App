@@ -10,6 +10,8 @@
         <item name="settings">@drawable/ic_settings_24dp</item>
         <item name="leftArrow">@drawable/ic_keyboard_arrow_left_24dp</item>
         <item name="rightArrow">@drawable/ic_keyboard_arrow_right_24dp</item>
+        <item name="share">@drawable/ic_share_24dp</item>
+        <item name="bookmarks">@drawable/ic_bookmark_border_24dp</item>
 
     </style>
 

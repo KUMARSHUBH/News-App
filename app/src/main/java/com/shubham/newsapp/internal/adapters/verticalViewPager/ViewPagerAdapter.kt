@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,10 +48,15 @@ class ViewPagerAdapter(
         return news.size
     }
 
+    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+    lateinit var itemView: View
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
-        val itemView =
-            mLayoutInflater.inflate(com.shubham.newsapp.R.layout.news_item_layout, container, false)
+        itemView = if(preferences.getString("theme_pref","light") == "light") {
+
+            mLayoutInflater.inflate(R.layout.news_item_layout, container, false)
+        } else mLayoutInflater.inflate(R.layout.news_item_dark_layout, container, false)
+
 
 
         itemView.heading_textView.text = news[position].title
@@ -58,6 +64,7 @@ class ViewPagerAdapter(
 
         if(position!=0)
             (fragment as MyFeed).link = news[position-1].url
+
         else (fragment as MyFeed).link = news[0].url
 
         constraint_layout.animate().translationY(-constraint_layout.bottom.toFloat())

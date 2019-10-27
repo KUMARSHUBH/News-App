@@ -49,6 +49,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         themePreference.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { _, newValue ->
                 ThemeHelper.applyTheme(newValue as String)
+
+
                 true
             }
     }
