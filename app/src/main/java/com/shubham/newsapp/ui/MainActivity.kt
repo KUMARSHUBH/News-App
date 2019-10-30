@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             .create()
 
         val request = PeriodicWorkRequest.Builder(ApiWorker::class.java,Random.nextLong(1,2),TimeUnit.HOURS)
+            .setInitialDelay(30,TimeUnit.MINUTES)
             .build()
 
         val workManager = WorkManager.getInstance(applicationContext)
