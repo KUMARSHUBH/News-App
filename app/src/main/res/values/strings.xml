@@ -20,4 +20,5 @@
     <string name="activity_force_dark_title">Force Dark Activity</string>
     <string name="activity_ignore_force_dark_title">Ignore Developer Option</string>
     <string name="hi_there">Hi there!</string>
+    <string name="news_notification_channel_id">NewsNotification</string>
 </resources>

@@ -105,76 +105,75 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         val news: LiveData<List<Article>>
 
-        if (source != null) {
 
-            viewModel.fetchNewsFromSources()
-            news = viewModel.newsFromSources.await()
+        if(activity?.intent?.getBooleanExtra("from_notification",false) == true){
+
+            viewModel.fetchTopNews()
+            news = viewModel.topNews.await()
+
             news.observe(this@MyFeed, Observer {
-                if (it == null) {
-                    return@Observer
-                }
+                if (it == null) return@Observer
 
-                if (it.isEmpty())
-                    Log.e("ERROR", "THIs IS ERROR")
-                //Toast.makeText(this@MyFeed.context, "Error", Toast.LENGTH_SHORT).show()
+                initViewPager(it)
 
-                else
-                    initViewPager(it)
             })
-
         }
+        else{
 
-        else {
+            if (source != null) {
 
-            if (selectedItem != null) {
+                viewModel.fetchNewsFromSources()
+                news = viewModel.newsFromSources.await()
+                news.observe(this@MyFeed, Observer {
+                    if (it == null) {
+                        return@Observer
+                    }
 
-                if (selectedItem == "all_news") {
+                    if (it.isEmpty())
+                        Log.e("ERROR", "THIs IS ERROR")
+                    //Toast.makeText(this@MyFeed.context, "Error", Toast.LENGTH_SHORT).show()
 
-                    viewModel.fetchAllNews()
-                    news = viewModel.allNews.await()
-
-                    news.observe(this@MyFeed, Observer {
-                        if (it == null) return@Observer
-
+                    else
                         initViewPager(it)
-                    })
-                } else if (selectedItem == "top_stories") {
-                    viewModel.fetchTopNews()
-                    news = viewModel.topNews.await()
+                })
 
-                    news.observe(this@MyFeed, Observer {
-                        if (it == null) return@Observer
-
-                        initViewPager(it)
-
-                    })
-
-                }
             }
 
             else {
 
-                if (category != null) {
+                if (selectedItem != null) {
 
-                    viewModel.fetchTopHeadlinesCategory()
+                    if (selectedItem == "all_news") {
 
-                    news = viewModel.topNewsCategory.await()
+                        viewModel.fetchAllNews()
+                        news = viewModel.allNews.await()
 
-                    news.observe(this@MyFeed, Observer {
-                        if (it == null) return@Observer
+                        news.observe(this@MyFeed, Observer {
+                            if (it == null) return@Observer
 
-                        initViewPager(it)
-                    })
+                            initViewPager(it)
+                        })
+                    } else if (selectedItem == "top_stories") {
+                        viewModel.fetchTopNews()
+                        news = viewModel.topNews.await()
+
+                        news.observe(this@MyFeed, Observer {
+                            if (it == null) return@Observer
+
+                            initViewPager(it)
+
+                        })
+
+                    }
                 }
-
 
                 else {
 
-                    if (searchView != null){
+                    if (category != null) {
 
-                        viewModel.fetchNews()
+                        viewModel.fetchTopHeadlinesCategory()
 
-                        news = viewModel.newsSearch.await()
+                        news = viewModel.topNewsCategory.await()
 
                         news.observe(this@MyFeed, Observer {
                             if (it == null) return@Observer
@@ -183,20 +182,38 @@ class MyFeed : ScopedFragment(), KodeinAware {
                         })
                     }
 
-                    else{
 
-                        news = viewModel.news.await()
+                    else {
 
-                        news.observe(this@MyFeed, Observer {
-                            if (it == null) return@Observer
+                        if (searchView != null){
 
-                            initViewPager(it)
-                        })
+                            viewModel.fetchNews()
+
+                            news = viewModel.newsSearch.await()
+
+                            news.observe(this@MyFeed, Observer {
+                                if (it == null) return@Observer
+
+                                initViewPager(it)
+                            })
+                        }
+
+                        else{
+
+                            news = viewModel.news.await()
+
+                            news.observe(this@MyFeed, Observer {
+                                if (it == null) return@Observer
+
+                                initViewPager(it)
+                            })
+                        }
                     }
                 }
-            }
 
+            }
         }
+
 
     }
 

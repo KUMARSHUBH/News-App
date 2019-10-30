@@ -6,12 +6,17 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import com.shubham.newsapp.R
 import com.shubham.newsapp.internal.adapters.FragmentStatePagerItemAdapter
+import com.shubham.newsapp.notification.workers.ApiWorker
 import com.shubham.newsapp.ui.discover.Discover
 import com.shubham.newsapp.ui.myFeed.MyFeed
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +30,13 @@ class MainActivity : AppCompatActivity() {
             .add(R.string.discover, Discover::class.java)
             .add(R.string.myFeed, MyFeed::class.java)
             .create()
+
+        val request = PeriodicWorkRequest.Builder(ApiWorker::class.java,Random.nextLong(1,2),TimeUnit.HOURS)
+            .build()
+
+        val workManager = WorkManager.getInstance(applicationContext)
+
+        workManager.enqueue(request)
 
         adapter = FragmentStatePagerItemAdapter(
             supportFragmentManager,
@@ -41,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         viewPager.currentItem = 1
 
 
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
 
@@ -53,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 positionOffsetPixels: Int
             ) {
 
-                if(position == 0){
+                if (position == 0) {
 
                     root_layout.animate().translationY(root_layout.top.toFloat())
                         .setInterpolator(AccelerateInterpolator()).start()
@@ -64,9 +76,7 @@ class MainActivity : AppCompatActivity() {
 
                     bottom_app_bar.visibility = View.GONE
 
-                }
-
-                else{
+                } else {
 
                     root_layout.animate().translationY(-root_layout.bottom.toFloat())
                         .setInterpolator(AccelerateInterpolator()).start()
@@ -81,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
 
-                when(position){
+                when (position) {
                     0 -> showSettings()
                     1 -> showRefresh()
                 }
@@ -97,14 +107,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun showSettings(){
+    private fun showSettings() {
         settings_image_view.setImageResource(R.drawable.ic_settings_24dp)
         refresh_image_view.setImageResource(R.drawable.ic_keyboard_arrow_right_24dp)
 
     }
 
 
-    private fun showRefresh(){
+    private fun showRefresh() {
         settings_image_view.setImageResource(R.drawable.ic_keyboard_arrow_left_24dp)
         refresh_image_view.setImageResource(R.drawable.ic_refresh_24dp)
     }

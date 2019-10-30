@@ -16,10 +16,19 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="com.shubham.newsapp.workmanager-init"
+            android:enabled="false"/>
+
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="locked"
             android:theme="@style/AppTheme" />
+
+        <receiver android:name=".notification.ShareReceiver"
+            android:enabled="true"
+            android:exported="true"/>
 
         <activity android:name=".ui.SettingsActivity"
             android:theme="@style/AppTheme"/>

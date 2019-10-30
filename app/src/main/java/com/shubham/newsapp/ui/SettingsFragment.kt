@@ -19,7 +19,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        addPreferencesFromResource(com.shubham.newsapp.R.xml.preferences)
+        addPreferencesFromResource(R.xml.preferences)
 
         val ratePreference: Preference = findPreference<Preference>("RATE") as Preference
         ratePreference.setOnPreferenceClickListener {
@@ -30,7 +30,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 visibility = View.VISIBLE
                 setOnRatingSelectedListener { level, reselected ->
 
-                    Toast.makeText(this@SettingsFragment.context,"Thanks for rating!!!",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@SettingsFragment.context,
+                        "Thanks for rating!!!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     GlobalScope.launch {
                         delay(4000)
                     }
@@ -50,7 +54,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         themePreference.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { _, newValue ->
                 ThemeHelper.applyTheme(newValue as String)
-                (this@SettingsFragment.activity?.application as NewsApplication).preferencesChanged = true
+                (this@SettingsFragment.activity?.application as NewsApplication).preferencesChanged =
+                    true
                 true
             }
     }

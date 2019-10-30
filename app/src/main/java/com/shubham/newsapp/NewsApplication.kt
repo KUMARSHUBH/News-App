@@ -2,6 +2,8 @@ package com.shubham.newsapp
 
 import android.app.Application
 import androidx.preference.PreferenceManager
+import androidx.work.Configuration
+import androidx.work.WorkManager
 import com.shubham.newsapp.data.db.NewsDatabase
 import com.shubham.newsapp.data.network.NewsApiservice
 import com.shubham.newsapp.data.network.dataSource.NewsNetworkDataSource
@@ -14,6 +16,7 @@ import com.shubham.newsapp.data.repository.NewsRepository
 import com.shubham.newsapp.data.repository.NewsRepositoryImpl
 import com.shubham.newsapp.data.repository.NewsSourceRepository
 import com.shubham.newsapp.data.repository.NewsSourceRepositoryImpl
+import com.shubham.newsapp.notification.ApiWorkerFactory
 import com.shubham.newsapp.ui.SharedViewModelFactory
 import example.com.darkthemeplayground.settings.ThemeHelper
 import org.kodein.di.Kodein
@@ -27,6 +30,7 @@ import org.kodein.di.generic.singleton
 class NewsApplication : Application(), KodeinAware {
 
     var preferencesChanged: Boolean = false
+
 
     override val kodein: Kodein = Kodein.lazy {
         import(androidXModule(this@NewsApplication))
@@ -57,13 +61,21 @@ class NewsApplication : Application(), KodeinAware {
         }
 
         bind() from provider { SharedViewModelFactory(instance(),instance()) }
+        bind() from provider { ApiWorkerFactory(instance()) }
     }
 
+    val apiWorkerFactory: ApiWorkerFactory by instance()
 
     override fun onCreate() {
         super.onCreate()
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val themePref = prefs.getString(getString(R.string.theme_pref_key), ThemeHelper.DEFAULT_MODE)
         ThemeHelper.applyTheme(themePref!!)
+
+
+        WorkManager.initialize(
+            applicationContext,
+            Configuration.Builder().setWorkerFactory(apiWorkerFactory).build()
+        )
     }
 }
