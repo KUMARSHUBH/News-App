@@ -31,7 +31,7 @@ class SharedViewModel(
     lateinit var allNews: Deferred<LiveData<List<Article>>>
     lateinit var topNewsCategory: Deferred<LiveData<List<Article>>>
     lateinit var newsSearch: Deferred<LiveData<List<Article>>>
-
+    lateinit var newsNotification: Deferred<LiveData<List<Article>>>
 
     fun selectedDomain(value: String?) {
         domain = value
@@ -124,6 +124,14 @@ class SharedViewModel(
         newsSearch = GlobalScope.async {
 
             newsRepository.getNewsSearch(keyword!!)
+        }
+    }
+
+    fun fetchNewsFromNotification(qInTitle: String){
+
+        newsNotification = GlobalScope.async {
+
+            newsRepository.getNewsFromNotification(qInTitle)
         }
     }
 }

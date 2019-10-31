@@ -16,6 +16,16 @@ class NewsRepositoryImpl(
     private val newsNetworkDataSource: NewsNetworkDataSource,
     private val newsSourcesDao: NewsSourcesDao
 ) : NewsRepository {
+    override suspend fun getNewsFromNotification(
+        qInTitle: String
+    ): LiveData<List<Article>> {
+
+        return withContext(Dispatchers.IO){
+
+            getNewsForNotification(qInTitle)
+            return@withContext newsDao.getNews()
+        }
+    }
 
     override suspend fun getNewsSearch(keyword: String): LiveData<List<Article>> {
         return withContext(Dispatchers.IO){
@@ -123,5 +133,10 @@ class NewsRepositoryImpl(
     private suspend fun getSearchNews(keyword: String){
 
         newsNetworkDataSource.fetchSearchNews(keyword)
+    }
+
+    private suspend fun getNewsForNotification(qInTitle: String){
+
+        newsNetworkDataSource.fetchNewsFromNotification(qInTitle)
     }
 }

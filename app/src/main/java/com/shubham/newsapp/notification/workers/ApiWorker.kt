@@ -6,7 +6,9 @@ import androidx.core.content.ContextCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.shubham.newsapp.data.network.NewsApiservice
+import com.shubham.newsapp.internal.getHostName
 import com.shubham.newsapp.notification.sendNotification
+import kotlin.random.Random
 
 class ApiWorker(
     appContext: Context,
@@ -21,11 +23,15 @@ class ApiWorker(
 
         try {
 
-            val article = newsApiservice.getTopNews("en").await().articles[0]
+            val article = newsApiservice.getAllTheNews(listOf("abcnews.go.com, abc.net.au, aljazeera.com, " +
+                    "arstechnica.com, apnews.com, afr.com, axios.com, bbc.co.uk," +
+                    " bbc.co.uk, bleacherreport.com, bloomberg.com, breitbart.com, businessinsider.com").joinToString()).await().articles[Random.nextInt(0,5)]
 
             val title = article.title
             val imageUrl = article.urlToImage
             val url = article.url
+
+            val domain = getHostName(article.url!!)
 
             val notificationManager = ContextCompat.getSystemService(
                 applicationContext,
@@ -37,11 +43,11 @@ class ApiWorker(
                title!!,
                 imageUrl!!,
                 url!!,
-                applicationContext
+                applicationContext,
+                domain
             )
 
 
-//            notificationManager.testNotification("AV",applicationContext)
             return Result.success()
 
         } catch (e: Exception) {

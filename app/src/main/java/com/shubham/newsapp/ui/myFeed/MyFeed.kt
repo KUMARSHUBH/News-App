@@ -63,17 +63,17 @@ class MyFeed : ScopedFragment(), KodeinAware {
         viewModel = activity?.let {
             ViewModelProviders.of(it, viewModelFactory).get(SharedViewModel::class.java)
         }!!
-//        shimmer_layout.apply {
-//            startShimmerAnimation()
-//        }
+        shimmer_layout.apply {
+            startShimmerAnimation()
+        }
 
         val img = (activity as? MainActivity)?.refresh_image_view
         img?.setOnClickListener {
 
             val anim = AnimationUtils.loadAnimation(this.context, R.anim.rotate)
             it.startAnimation(anim)
-//            shimmer_layout.visibility = View.VISIBLE
-//            shimmer_layout.startShimmerAnimation()
+            shimmer_layout.visibility = View.VISIBLE
+            shimmer_layout.startShimmerAnimation()
 
 //            bindUI()
         }
@@ -106,10 +106,16 @@ class MyFeed : ScopedFragment(), KodeinAware {
         val news: LiveData<List<Article>>
 
 
-        if(activity?.intent?.getBooleanExtra("from_notification",false) == true){
+        if(activity?.intent?.getBooleanExtra("from_Notification",false) == true){
 
-            viewModel.fetchTopNews()
-            news = viewModel.topNews.await()
+            viewModel.returnFromWebView = false
+            viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
+            viewModel.selectedCategory(null)
+            viewModel.selectedKeyword(null)
+
+            viewModel.fetchNewsFromNotification(activity?.intent?.getStringExtra("title")!!)
+            news = viewModel.newsNotification.await()
 
             news.observe(this@MyFeed, Observer {
                 if (it == null) return@Observer
@@ -232,12 +238,14 @@ class MyFeed : ScopedFragment(), KodeinAware {
     override fun onPause() {
         viewModel.returnFromWebView = true
         (this@MyFeed.activity?.application as NewsApplication).preferencesChanged = false
+        activity?.intent?.removeExtra("from_Notification")
         super.onPause()
     }
 
     override fun onResume() {
 
         super.onResume()
+
 
         val domain = viewModel.returnDomain()
         selectedItem = viewModel.returnSelected()

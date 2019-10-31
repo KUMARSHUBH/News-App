@@ -14,6 +14,18 @@ class NewsNetworkDataSourceImpl(
 
     NewsNetworkDataSource {
 
+    override suspend fun fetchNewsFromNotification(qInTitle: String) {
+
+        try {
+            val fetchedNews = newsApiservice.newsFromNotification(qInTitle)
+                .await()
+            _downloadedNews.postValue(fetchedNews)
+
+        }catch (e: NoConnectivityException){
+            Log.e("Connectivity", "No internet connection", e)
+        }
+    }
+
 
     override suspend fun fetchSearchNews(keyword: String) {
 

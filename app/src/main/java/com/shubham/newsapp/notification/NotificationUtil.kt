@@ -22,7 +22,8 @@ fun NotificationManager.sendNotification(
     title: String,
     imageUrl: String,
     url: String,
-    applicationContext: Context
+    applicationContext: Context,
+    domain: String
 ) {
 
 
@@ -30,10 +31,13 @@ fun NotificationManager.sendNotification(
         .bigPicture(Picasso.get().load(imageUrl).get())
         .bigLargeIcon(null)
 
+//    val remoteViews = RemoteViews(applicationContext.packageName,R.layout.notification_layout)
+//    remoteViews.setImageViewBitmap(R.id.notification_textView,Picasso.get().load(imageUrl).get())
+//    remoteViews.setTextViewText(R.id.notification_textView,title)
 
     val intent = Intent(applicationContext,MainActivity::class.java)
-    intent.putExtra("from_notification",true)
-
+    intent.putExtra("title",title)
+    intent.putExtra("from_Notification",true)
 
     val shareIntent = Intent(applicationContext,ShareReceiver::class.java)
     shareIntent.putExtra("url",url)

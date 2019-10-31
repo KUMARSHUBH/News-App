@@ -16,4 +16,6 @@ interface NewsRepository {
     suspend fun getTopHeadlinesFromCategory(category: String): LiveData<List<Article>>
 
     suspend fun getNewsSearch(keyword : String): LiveData<List<Article>>
+
+    suspend fun getNewsFromNotification(qInTitle: String): LiveData<List<Article>>
 }

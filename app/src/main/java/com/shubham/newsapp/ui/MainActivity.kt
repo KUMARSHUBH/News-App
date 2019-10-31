@@ -31,14 +31,26 @@ class MainActivity : AppCompatActivity() {
             .add(R.string.myFeed, MyFeed::class.java)
             .create()
 
-        val request = PeriodicWorkRequest.Builder(ApiWorker::class.java,Random.nextLong(1,2),TimeUnit.HOURS)
-            .setInitialDelay(30,TimeUnit.MINUTES)
+        val request = PeriodicWorkRequest.Builder(
+            ApiWorker::class.java,
+            Random.nextLong(15, 20),
+            TimeUnit.HOURS
+        )
+            .setInitialDelay(15,TimeUnit.MINUTES)
+            .addTag("notification")
             .build()
 
+
+//        val request = OneTimeWorkRequest.Builder(
+//            ApiWorker::class.java
+//        )
+//            .addTag("notification")
+//            .build()
         val workManager = WorkManager.getInstance(applicationContext)
 
-        workManager.enqueue(request)
+        workManager.cancelAllWorkByTag("notification")
 
+        workManager.enqueue(request)
         adapter = FragmentStatePagerItemAdapter(
             supportFragmentManager,
             fragPagerItems
