@@ -59,6 +59,10 @@ interface NewsApiservice {
         @Query("sortBy") sortBy : String = "popularity"
     ) : Deferred<NewsResponse>
 
+    @GET("everything")
+    fun newsFromNotification(
+        @Query("qInTitle") keyword: String
+    ) : Deferred<NewsResponse>
 
     companion object{
         operator fun invoke(
