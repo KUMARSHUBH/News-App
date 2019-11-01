@@ -100,6 +100,16 @@ class Discover : ScopedFragment(), KodeinAware {
         }
 
         bookmarks.setOnClickListener {
+
+            viewModel.returnFromWebView = false
+            viewModel.selectedDomain(null)
+            viewModel.selectedItem(null)
+
+            viewModel.selectedItem("bookmarks")
+
+            val vp = (activity as MainActivity).viewPager
+            vp.viewPager.currentItem = vp.currentItem + 1
+
             Toast.makeText(this@Discover.context, "Bookmarks", Toast.LENGTH_SHORT).show()
         }
 

@@ -7,10 +7,11 @@ import androidx.room.RoomDatabase
 import com.shubham.newsapp.data.db.dao.NewsDao
 import com.shubham.newsapp.data.db.dao.NewsSourcesDao
 import com.shubham.newsapp.data.db.entity.Article
+import com.shubham.newsapp.data.db.entity.Bookmark
 import com.shubham.newsapp.data.db.entity.SourceX
 
 @Database(
-    entities = [Article::class, SourceX::class],
+    entities = [Article::class, SourceX::class, Bookmark::class],
     version = 1
 )
 abstract class NewsDatabase : RoomDatabase() {

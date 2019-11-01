@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import androidx.viewpager.widget.PagerAdapter
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
+import com.shubham.newsapp.data.db.entity.Bookmark
 import com.shubham.newsapp.internal.BlurBuilder
 import com.shubham.newsapp.internal.ScopedFragment
 import com.shubham.newsapp.ui.MainActivity
@@ -26,7 +27,8 @@ import kotlinx.android.synthetic.main.news_item_layout.view.*
 
 class ViewPagerAdapter(
     private val context: Context?,
-    private var news: List<Article>,
+    private val news: List<Article>?,
+    private val bookmark: List<Bookmark>?,
     private val fragment: ScopedFragment
 ) : PagerAdapter() {
 
@@ -45,7 +47,14 @@ class ViewPagerAdapter(
     }
 
     override fun getCount(): Int {
-        return news.size
+        if(news !=null)
+            return news.size
+
+        else if(bookmark !=null)
+            return bookmark.size
+
+        else
+            return 0
     }
 
     val preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -58,43 +67,123 @@ class ViewPagerAdapter(
         } else mLayoutInflater.inflate(R.layout.news_item_dark_layout, container, false)
 
 
+        if(news!= null){
 
-        itemView.heading_textView.text = news[position].title
-        itemView.description_text_view.text = news[position].description
+            itemView.heading_textView.text = news[position].title
+            itemView.description_text_view.text = news[position].title
 
-        if(position!=0)
-            (fragment as MyFeed).link = news[position-1].url
+            if(position!=0)
+                (fragment as MyFeed).link = news[position-1].title
 
-        else (fragment as MyFeed).link = news[0].url
+            else (fragment as MyFeed).link = news[0].title
 
-        constraint_layout.animate().translationY(-constraint_layout.bottom.toFloat())
-            .setInterpolator(AccelerateInterpolator()).start()
+            fragment.bookmark.apply {
 
-        bottom_app_bar.animate().translationY(bottom_app_bar.bottom.toFloat())
-            .setInterpolator(AccelerateInterpolator()).start()
-
-        itemView.author.text = "Tap for details ... "
-
-        Picasso.get().load(news[position].urlToImage)
-            .placeholder(R.drawable.placeholder)
-            .into(itemView.news_image_view, object : Callback {
-
-                override fun onSuccess() {
-                    val bitmap = (itemView.news_image_view.drawable as BitmapDrawable).bitmap
-
-                    var bm = BlurBuilder().blur(context!!, bitmap)
-
-                    bm = Bitmap.createBitmap(bm, 50, 50, 25, 25)
-                    bm = darkenBitMap(bm)
-                    val drawable = BitmapDrawable(context.resources, bm)
-                    itemView.author.background = drawable
-                }
-
-                override fun onError(e: Exception?) {
+                if(position!=0){
+                    title = news[position-1].title
+                    url = news[position-1].url
+                    author = news[position-1].author
+                    content = news[position-1].content
+                    description = news[position-1].title
+                    publishedAt = news[position-1].publishedAt
+                    source = news[position-1].source
+                    urlToImage = news[position-1].urlToImage
 
                 }
 
-            })
+                else{
+
+                    title = news[0].title
+                    url = news[0].url
+                    author = news[0].author
+                    content = news[0].content
+                    description = news[0].title
+                    publishedAt = news[0].publishedAt
+                    source = news[0].source
+                    urlToImage = news[0].urlToImage
+
+                }
+
+            }
+
+            constraint_layout.animate().translationY(-constraint_layout.bottom.toFloat())
+                .setInterpolator(AccelerateInterpolator()).start()
+
+            bottom_app_bar.animate().translationY(bottom_app_bar.bottom.toFloat())
+                .setInterpolator(AccelerateInterpolator()).start()
+
+            itemView.author.text = "Tap for details ... "
+
+            Picasso.get().load(news[position].urlToImage)
+                .placeholder(R.drawable.placeholder)
+                .into(itemView.news_image_view, object : Callback {
+
+                    override fun onSuccess() {
+                        val bitmap = (itemView.news_image_view.drawable as BitmapDrawable).bitmap
+
+                        var bm = BlurBuilder().blur(context!!, bitmap)
+
+                        try {
+                            bm = Bitmap.createBitmap(bm, 50, 50, 25, 25)
+                        }catch (e: Exception)
+                        {
+
+                        }
+
+                        bm = darkenBitMap(bm)
+                        val drawable = BitmapDrawable(context.resources, bm)
+                        itemView.author.background = drawable
+                    }
+
+                    override fun onError(e: Exception?) {
+
+                    }
+
+                })
+        }
+
+        else if (bookmark !=null){
+
+            itemView.heading_textView.text = bookmark[position].title
+            itemView.description_text_view.text = bookmark[position].title
+
+            if(position!=0)
+                (fragment as MyFeed).link = bookmark[position-1].title
+
+            else (fragment as MyFeed).link = bookmark[0].title
+
+
+            constraint_layout.animate().translationY(-constraint_layout.bottom.toFloat())
+                .setInterpolator(AccelerateInterpolator()).start()
+
+            bottom_app_bar.animate().translationY(bottom_app_bar.bottom.toFloat())
+                .setInterpolator(AccelerateInterpolator()).start()
+
+            itemView.author.text = "Tap for details ... "
+
+            Picasso.get().load(bookmark[position].urlToImage)
+                .placeholder(R.drawable.placeholder)
+                .into(itemView.news_image_view, object : Callback {
+
+                    override fun onSuccess() {
+                        val bitmap = (itemView.news_image_view.drawable as BitmapDrawable).bitmap
+
+                        var bm = BlurBuilder().blur(context!!, bitmap)
+
+                        bm = Bitmap.createBitmap(bm, 50, 50, 25, 25)
+                        bm = darkenBitMap(bm)
+                        val drawable = BitmapDrawable(context.resources, bm)
+                        itemView.author.background = drawable
+                    }
+
+                    override fun onError(e: Exception?) {
+
+                    }
+
+                })
+        }
+
+
 
         itemView.description_text_view.setOnClickListener {
 
@@ -129,12 +218,26 @@ class ViewPagerAdapter(
         }
 
 
+
         itemView.author.setOnClickListener {
 
-            fragment.viewModel.returnFromWebView = true
-            val intent = Intent(context, WebViewActivity::class.java)
-            intent.putExtra("SOURCE_URL", news[position].url)
-            context?.startActivity(intent)
+            if(news != null){
+
+
+                (fragment as MyFeed).viewModel.returnFromWebView = true
+                val intent = Intent(context, WebViewActivity::class.java)
+                intent.putExtra("SOURCE_URL", news[position].url)
+                context?.startActivity(intent)
+            }
+            else if(bookmark!=null){
+
+                (fragment as MyFeed).viewModel.returnFromWebView = true
+                val intent = Intent(context, WebViewActivity::class.java)
+                intent.putExtra("SOURCE_URL", bookmark[position].url)
+                context?.startActivity(intent)
+            }
+
+
         }
 
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.shubham.newsapp.data.db.dao.NewsDao
 import com.shubham.newsapp.data.db.dao.NewsSourcesDao
 import com.shubham.newsapp.data.db.entity.Article
+import com.shubham.newsapp.data.db.entity.Bookmark
 import com.shubham.newsapp.data.network.dataSource.NewsNetworkDataSource
 import com.shubham.newsapp.data.network.response.NewsResponse
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,37 @@ class NewsRepositoryImpl(
     private val newsNetworkDataSource: NewsNetworkDataSource,
     private val newsSourcesDao: NewsSourcesDao
 ) : NewsRepository {
+
+
+    override suspend fun insertBookmark(bookmark: Bookmark) {
+
+        withContext(Dispatchers.IO){
+
+            newsDao.insertBookmark(bookmark)
+        }
+    }
+
+
+    override suspend fun deleteBookmark(id: Int) {
+
+        withContext(Dispatchers.IO){
+
+            newsDao.deleteBookmarkedNews(id)
+        }
+
+    }
+
+
+    override suspend fun getBookmarkedNews(): LiveData<List<Bookmark>> {
+
+        return withContext(Dispatchers.IO){
+
+            return@withContext newsDao.getBookmarks()
+        }
+    }
+
+
+
     override suspend fun getNewsFromNotification(
         qInTitle: String
     ): LiveData<List<Article>> {

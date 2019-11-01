@@ -16,6 +16,7 @@ import androidx.viewpager.widget.ViewPager
 import com.shubham.newsapp.NewsApplication
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
+import com.shubham.newsapp.data.db.entity.Bookmark
 import com.shubham.newsapp.internal.ScopedFragment
 import com.shubham.newsapp.internal.adapters.verticalViewPager.ViewPagerAdapter
 import com.shubham.newsapp.internal.getHostName
@@ -44,6 +45,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
     var category: String? = null
     var searchView: String? = null
 
+    var bookmark: Bookmark = Bookmark(null,null,"","","","",",","","")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,6 +83,13 @@ class MyFeed : ScopedFragment(), KodeinAware {
         val share = (activity as MainActivity).share.setOnClickListener {
 
             shareNews()
+        }
+
+        (activity as MainActivity).bookmark.setOnClickListener {
+
+            viewModel.insetBookmark(bookmark)
+            viewModel.returnFromWebView = false
+            Toast.makeText(this.context,"Bookmarked",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -159,7 +168,8 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
                             initViewPager(it)
                         })
-                    } else if (selectedItem == "top_stories") {
+                    }
+                    else if (selectedItem == "top_stories") {
                         viewModel.fetchTopNews()
                         news = viewModel.topNews.await()
 
@@ -168,6 +178,18 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
                             initViewPager(it)
 
+                        })
+
+                    }
+
+                    else if (selectedItem == "bookmarks"){
+
+                        viewModel.fetchNewsFromBookmarks()
+                        viewModel.bookmarks.await().observe(this@MyFeed, Observer {
+
+                            if(it ==null) return@Observer
+
+                            initViewPager2(it)
                         })
 
                     }
@@ -227,13 +249,26 @@ class MyFeed : ScopedFragment(), KodeinAware {
 
         shimmer_layout.stopShimmerAnimation()
         shimmer_layout.visibility = View.INVISIBLE
-        view_pager.adapter = ViewPagerAdapter(this@MyFeed.context, it, this)
+        view_pager.adapter = ViewPagerAdapter(this@MyFeed.context, it, null,this)
 
         view_pager.setPageTransformer(true, ViewPageTransformer())
 
 //        Toast.makeText(this.context, "Feed updated", Toast.LENGTH_SHORT).show()
 
     }
+
+    private fun initViewPager2(it: List<Bookmark>) {
+
+        shimmer_layout.stopShimmerAnimation()
+        shimmer_layout.visibility = View.INVISIBLE
+        view_pager.adapter = ViewPagerAdapter(this@MyFeed.context, null, it,this)
+
+        view_pager.setPageTransformer(true, ViewPageTransformer())
+
+//        Toast.makeText(this.context, "Feed updated", Toast.LENGTH_SHORT).show()
+
+    }
+
 
     override fun onPause() {
         viewModel.returnFromWebView = true
@@ -259,7 +294,7 @@ class MyFeed : ScopedFragment(), KodeinAware {
             null
 
 
-//        bindUI()
+
         if(!viewModel.returnFromWebView || (this@MyFeed.activity?.application as NewsApplication).preferencesChanged)
             bindUI()
 
