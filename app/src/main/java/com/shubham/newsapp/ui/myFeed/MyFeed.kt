@@ -45,7 +45,19 @@ class MyFeed : ScopedFragment(), KodeinAware {
     var category: String? = null
     var searchView: String? = null
 
-    var bookmark: Bookmark = Bookmark(null,null,"","","","",",","","")
+    var bookmark: Bookmark = Bookmark(null,null,"","","","",",","","",null)
+
+
+    fun bookmarkClickListener(){
+
+        (activity as MainActivity).bookmark.setOnClickListener {
+
+            viewModel.insetBookmark(bookmark)
+            viewModel.returnFromWebView = false
+            Toast.makeText(this.context,"Bookmarked",Toast.LENGTH_SHORT).show()
+
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,12 +97,8 @@ class MyFeed : ScopedFragment(), KodeinAware {
             shareNews()
         }
 
-        (activity as MainActivity).bookmark.setOnClickListener {
 
-            viewModel.insetBookmark(bookmark)
-            viewModel.returnFromWebView = false
-            Toast.makeText(this.context,"Bookmarked",Toast.LENGTH_SHORT).show()
-        }
+
     }
 
     private fun shareNews() {

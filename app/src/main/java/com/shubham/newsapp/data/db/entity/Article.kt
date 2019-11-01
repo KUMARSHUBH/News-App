@@ -3,9 +3,10 @@ package com.shubham.newsapp.data.db.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "news")
+@Entity(tableName = "news", indices = [Index(value = ["title","url"], unique = true)])
 data class Article(
 
     @PrimaryKey(autoGenerate = true)
@@ -20,5 +21,6 @@ data class Article(
     val url: String?,
     val urlToImage: String?,
     val publishedAt: String?,
-    val content: String?
+    val content: String?,
+    var isBookmarked: Boolean?
 )

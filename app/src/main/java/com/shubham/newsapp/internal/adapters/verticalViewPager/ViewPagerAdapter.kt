@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.viewpager.widget.PagerAdapter
 import com.shubham.newsapp.R
 import com.shubham.newsapp.data.db.entity.Article
@@ -69,13 +70,15 @@ class ViewPagerAdapter(
 
         if(news!= null){
 
+
+            (fragment as MyFeed).bookmarkClickListener()
             itemView.heading_textView.text = news[position].title
-            itemView.description_text_view.text = news[position].title
+            itemView.description_text_view.text = news[position].description
 
             if(position!=0)
-                (fragment as MyFeed).link = news[position-1].title
+                fragment.link = news[position-1].url
 
-            else (fragment as MyFeed).link = news[0].title
+            else fragment.link = news[0].url
 
             fragment.bookmark.apply {
 
@@ -84,7 +87,7 @@ class ViewPagerAdapter(
                     url = news[position-1].url
                     author = news[position-1].author
                     content = news[position-1].content
-                    description = news[position-1].title
+                    description = news[position-1].description
                     publishedAt = news[position-1].publishedAt
                     source = news[position-1].source
                     urlToImage = news[position-1].urlToImage
@@ -97,11 +100,11 @@ class ViewPagerAdapter(
                     url = news[0].url
                     author = news[0].author
                     content = news[0].content
-                    description = news[0].title
+                    description = news[0].description
                     publishedAt = news[0].publishedAt
                     source = news[0].source
                     urlToImage = news[0].urlToImage
-
+                    isBookmarked = true
                 }
 
             }
@@ -113,6 +116,8 @@ class ViewPagerAdapter(
                 .setInterpolator(AccelerateInterpolator()).start()
 
             itemView.author.text = "Tap for details ... "
+
+
 
             Picasso.get().load(news[position].urlToImage)
                 .placeholder(R.drawable.placeholder)
@@ -145,13 +150,23 @@ class ViewPagerAdapter(
         else if (bookmark !=null){
 
             itemView.heading_textView.text = bookmark[position].title
-            itemView.description_text_view.text = bookmark[position].title
+            itemView.description_text_view.text = bookmark[position].description
 
             if(position!=0)
-                (fragment as MyFeed).link = bookmark[position-1].title
+                (fragment as MyFeed).link = bookmark[position-1].url
 
-            else (fragment as MyFeed).link = bookmark[0].title
+            else (fragment as MyFeed).link = bookmark[0].url
 
+
+            fragment.activity?.bookmark?.setOnClickListener {
+
+                Toast.makeText(fragment.context,"Bookmark Removed",Toast.LENGTH_SHORT).show()
+                if(position != 0)
+                    fragment.viewModel.deleteFromBookmarks(bookmark[position].title!!)
+
+                else
+                    fragment.viewModel.deleteFromBookmarks(bookmark[position].title!!)
+            }
 
             constraint_layout.animate().translationY(-constraint_layout.bottom.toFloat())
                 .setInterpolator(AccelerateInterpolator()).start()
@@ -170,7 +185,12 @@ class ViewPagerAdapter(
 
                         var bm = BlurBuilder().blur(context!!, bitmap)
 
-                        bm = Bitmap.createBitmap(bm, 50, 50, 25, 25)
+                        try{
+                            bm = Bitmap.createBitmap(bm, 50, 50, 25, 25)
+                        }catch (e: Exception){
+
+                        }
+
                         bm = darkenBitMap(bm)
                         val drawable = BitmapDrawable(context.resources, bm)
                         itemView.author.background = drawable

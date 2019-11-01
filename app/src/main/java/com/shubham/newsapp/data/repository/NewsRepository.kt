@@ -22,7 +22,7 @@ interface NewsRepository {
 
     suspend fun getBookmarkedNews() : LiveData<List<Bookmark>>
 
-    suspend fun deleteBookmark(id: Int)
+    suspend fun deleteBookmark(id: String)
 
     suspend fun insertBookmark(bookmark: Bookmark)
 }

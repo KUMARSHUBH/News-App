@@ -20,13 +20,13 @@ interface NewsDao {
     @Query("delete from news")
     fun deleteOldNews()
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBookmark(bookmark: Bookmark)
 
     @Query("select * from news_bookmark")
     fun getBookmarks(): LiveData<List<Bookmark>>
 
-    @Query("delete from news_bookmark where rowid match :id")
-    fun deleteBookmarkedNews(id: Int)
+    @Query("delete from news_bookmark where title like :id")
+    fun deleteBookmarkedNews(id: String)
 
 }

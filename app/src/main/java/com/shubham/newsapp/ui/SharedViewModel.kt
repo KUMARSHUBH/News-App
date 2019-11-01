@@ -146,7 +146,7 @@ class SharedViewModel(
         }
     }
 
-    fun deleteFromBookmarks(id: Int){
+    fun deleteFromBookmarks(id: String){
 
         GlobalScope.launch {
 

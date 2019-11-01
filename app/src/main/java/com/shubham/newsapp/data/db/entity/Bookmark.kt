@@ -3,11 +3,11 @@ package com.shubham.newsapp.data.db.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.Fts4
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "news_bookmark")
-@Fts4
+@Entity(tableName = "news_bookmark", indices = [Index(value = ["title","url"], unique = true)])
+
 data class Bookmark(
 
     @PrimaryKey(autoGenerate = true)
@@ -21,5 +21,6 @@ data class Bookmark(
     var url: String?,
     var urlToImage: String?,
     var publishedAt: String?,
-    var content: String?
+    var content: String?,
+    var isBookmarked: Boolean?
 )

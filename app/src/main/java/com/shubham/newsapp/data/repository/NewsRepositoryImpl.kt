@@ -28,7 +28,7 @@ class NewsRepositoryImpl(
     }
 
 
-    override suspend fun deleteBookmark(id: Int) {
+    override suspend fun deleteBookmark(id: String) {
 
         withContext(Dispatchers.IO){
 
