@@ -7,12 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.shubham.newsapp.R
 import com.shubham.newsapp.ui.MainActivity
 import com.squareup.picasso.Picasso
-import kotlin.random.Random
 
 private val NOTIFICATION_ID = 0
 private val REQUEST_CODE = 0
@@ -23,13 +24,20 @@ fun NotificationManager.sendNotification(
     imageUrl: String,
     url: String,
     applicationContext: Context,
-    domain: String
+    domain: String,
+    whens : Long
 ) {
 
 
-    val bigPicStyle = NotificationCompat.BigPictureStyle()
-        .bigPicture(Picasso.get().load(imageUrl).get())
-        .bigLargeIcon(null)
+//    val bigPicStyle = NotificationCompat.BigPictureStyle()
+//        .bigPicture(Picasso.get().load(imageUrl).get())
+//        .bigLargeIcon(null)
+
+    val remoteCollapsedView = RemoteViews(applicationContext.packageName,R.layout.custom_normal_notification)
+    remoteCollapsedView.setTextViewText(R.id.collapsed_text,title)
+    val remoteExpandedView = RemoteViews(applicationContext.packageName,R.layout.custom_expanded_notification)
+    remoteExpandedView.setImageViewBitmap(R.id.image_news,Picasso.get().load(imageUrl).get())
+    remoteExpandedView.setTextViewText(R.id.tv_news_title,title)
 
 //    val remoteViews = RemoteViews(applicationContext.packageName,R.layout.notification_layout)
 //    remoteViews.setImageViewBitmap(R.id.notification_textView,Picasso.get().load(imageUrl).get())
@@ -38,6 +46,7 @@ fun NotificationManager.sendNotification(
     val intent = Intent(applicationContext,MainActivity::class.java)
     intent.putExtra("title",title)
     intent.putExtra("from_Notification",true)
+    intent.data = Uri.parse("content://$whens")
 
     val shareIntent = Intent(applicationContext,ShareReceiver::class.java)
     shareIntent.putExtra("url",url)
@@ -49,13 +58,17 @@ fun NotificationManager.sendNotification(
         applicationContext,"Notification"
 
     )
-
-        .setSmallIcon(R.drawable.newspaper)
-        .setColor(R.drawable.newspaper)
-        .setContentTitle(title)
-        .setStyle(bigPicStyle)
+        .setWhen(whens)
+        .setSmallIcon(R.drawable.ic_stat_news_logo)
+        .setColor(Color.BLUE)
+//        .setContentTitle(title)
+//        .setLargeIcon(BitmapFactory.decodeResource(applicationContext.resources,R.mipmap.ic_launcher))
+        .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+        .setCustomContentView(remoteCollapsedView)
+        .setCustomBigContentView(remoteExpandedView)
         .setAutoCancel(true)
         .setContentIntent(pendingIntent)
+        .setStyle(NotificationCompat.DecoratedCustomViewStyle())
         .addAction(R.drawable.ic_share_24dp,
             "share",sharePendingIntent)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -64,9 +77,10 @@ fun NotificationManager.sendNotification(
         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 
 
+
     createChannel("Notification", "News Notification",applicationContext)
 
-    notify(Random.nextInt(10),builder.build())
+    notify(whens.toInt(),builder.build())
 }
 
 

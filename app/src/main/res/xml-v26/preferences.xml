@@ -1,52 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:iconSpaceReserved="false">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
 
         <SwitchPreferenceCompat
+            android:defaultValue="true"
             android:icon="@drawable/ic_notifications_none_black_24dp"
             android:key="NOTIFICATIONS"
-            android:title="Notifications"
-            android:defaultValue="true"
-            android:iconSpaceReserved="true"/>
+            android:title="Notifications" />
     </PreferenceCategory>
 
     <PreferenceCategory>
-        <SwitchPreferenceCompat
-            android:key="NIGHT_MODE"
-            android:title="Night Mode"
-            android:summary="For better readability at night"
-            android:defaultValue="false"
+        <ListPreference
+            app:key="@string/theme_pref_key"
+            app:title="Choose theme"
             android:icon="@drawable/ic_night_mode"
-            android:iconSpaceReserved="true"/>
+            app:defaultValue="default"
+            app:dialogTitle="Choose theme"
+            app:entries="@array/theme_list_array"
+            app:entryValues="@array/theme_entry_array"
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        >
+    <PreferenceCategory>
 
         <Preference
             android:key="SHARE"
-            android:title="Share this app"
-            android:iconSpaceReserved="false"/>
+            android:title="Share this app">
+
+            <intent
+                android:action="android.intent.action.SEND"
+                android:mimeType="text/plain">
+                <extra
+                    android:name = "android.intent.extra.TEXT"
+                    android:value= "Download News App and enjoy!!!"/>
+            </intent>
+
+        </Preference>
 
         <Preference
             android:key="RATE"
-            android:title="Rate this app"/>
+            android:title="Rate this app" />
 
         <Preference
             android:key="FEEDBACK"
-            android:title="Feedback"/>
+            android:title="Feedback">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="mailto:ks92217@gmail.address">
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
+                    android:value="Feedback" />
+                <extra
+                    android:name="android.intent.extra.TEXT"
+                    android:value="Text of Feedback" />
+            </intent>
+
+        </Preference>
 
         <Preference
             android:key="T_C"
-            android:title="Terms and conditions"/>
+            android:title="Terms and conditions">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.inshorts.com/android/tnc" />
+        </Preference>
 
         <Preference
             android:key="PRIVACY"
-            android:title="Privacy"/>
+            android:title="Privacy">
 
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.inshorts.com/android/privacy" />
+
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
